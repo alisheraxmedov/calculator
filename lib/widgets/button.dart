@@ -19,8 +19,8 @@ class ButtonWidget extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         margin: const EdgeInsets.only(right: 1.0, bottom: 2.0),
-        width: width / 4.2,
-        height: width / 4.2,
+        width: width / 5.45,
+        height: width / 5,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: color,
@@ -31,7 +31,7 @@ class ButtonWidget extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: width * 0.07,
+            fontSize: width * 0.09,
             color: ColorClass.white,
           ),
         ),
