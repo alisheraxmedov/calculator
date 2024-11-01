@@ -1,6 +1,8 @@
-import 'package:calculator/consts/colors.dart';
+import 'package:calculator/provider/provider.dart';
 import 'package:calculator/screens/one.dart';
+import 'package:calculator/widgets/text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -15,25 +17,30 @@ class CalculatorScreenState extends State<CalculatorScreen> {
     final double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorClass.black,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         centerTitle: true,
-        title: Text(
-          "Calculator",
-          style: TextStyle(
-            color: ColorClass.white,
-            fontSize: width * 0.09,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.0,
-          ),
+        title: TextWidget(
+          width: width,
+          text: "Calculator",
+          fontSize: width * 0.09,
+          letterSpacing: 1.0,
+          fontWeight: FontWeight.bold,
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.read<ProviderClass>().changeTheme();
+            },
+            icon: Icon(
+              context.watch<ProviderClass>().isLight
+                  ? Icons.dark_mode
+                  : Icons.light_mode,
+            ),
+          ),
+        ],
       ),
-      backgroundColor: ColorClass.black,
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: const FirstScreen(),
-      // body: Consumer<ProviderClass>(
-      //   builder: (context, value, child) {
-      //     return PagesClass.pages[value.currentIndex];
-      //   },
-      // ),
     );
   }
 }

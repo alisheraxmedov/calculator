@@ -4,6 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class ProviderClass extends ChangeNotifier {
+//==================================================================
+//========================= CHANGE THEME ===========================
+//==================================================================
+
+  bool isLight = false;
+  void changeTheme() {
+    isLight = !isLight;
+    notifyListeners();
+  }
+
+//==================================================================
+//========================== MATH LOGIC ============================
+//==================================================================
   String oldInput = '';
   String input = '';
   String output = '0';
@@ -18,8 +31,7 @@ class ProviderClass extends ChangeNotifier {
       isResultDisplayed = false;
     } else if (btnText == '=') {
       _calculateResult();
-    } else if (
-        btnText == 'sin' ||
+    } else if (btnText == 'sin' ||
         btnText == 'cos' ||
         btnText == 'tan' ||
         btnText == 'ctan' ||
@@ -27,8 +39,7 @@ class ProviderClass extends ChangeNotifier {
         btnText == '^2' ||
         btnText == '^n' ||
         btnText == 'π' ||
-        btnText == '√'
-        ) {
+        btnText == '√') {
       if (isResultDisplayed) {
         input = '';
         isResultDisplayed = false;

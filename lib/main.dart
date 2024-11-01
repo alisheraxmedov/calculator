@@ -1,5 +1,6 @@
 import 'package:calculator/provider/provider.dart';
 import 'package:calculator/screens/calculator.dart';
+import 'package:calculator/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,9 +23,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: context.watch<ProviderClass>().isLight
+          ? MyAppTheme.lightTheme
+          : MyAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: CalculatorScreen(),
+      home: const CalculatorScreen(),
     );
   }
 }
