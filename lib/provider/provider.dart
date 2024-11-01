@@ -1,31 +1,43 @@
-import 'package:flutter/material.dart';
-import 'package:math_expressions/math_expressions.dart';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
+
 class ProviderClass extends ChangeNotifier {
+  String oldInput = '';
   String input = '';
   String output = '0';
+  bool isResultDisplayed = false;
 
-  // Har bir tugma bosilganda ishlaydigan funksiya
   void buttonPressed(String btnText) {
     if (btnText == 'C') {
       // Clear
       input = '';
+      oldInput = '';
       output = '0';
+      isResultDisplayed = false;
     } else if (btnText == '=') {
       _calculateResult();
-    } else if (btnText == 'sin' ||
+    } else if (
+        btnText == 'sin' ||
         btnText == 'cos' ||
         btnText == 'tan' ||
         btnText == 'ctan' ||
         btnText == 'n!' ||
         btnText == '^2' ||
         btnText == '^n' ||
-        btnText == '√') {
-      // Maxsus funksiyalarni bajarish
-      _handleSpecialFunction(btnText);
+        btnText == 'π' ||
+        btnText == '√'
+        ) {
+      if (isResultDisplayed) {
+        input = '';
+        isResultDisplayed = false;
+      }
+      _appendSpecialFunction(btnText);
     } else if (_isOperator(btnText)) {
-      // Agar amal kiritilgan bo‘lsa, oxirgi amalni almashtirish
+      if (isResultDisplayed) {
+        isResultDisplayed = false;
+      }
       if (input.isNotEmpty && _isOperator(input[input.length - 1])) {
         input = input.substring(0, input.length - 1) + btnText;
       } else {
@@ -40,6 +52,10 @@ class ProviderClass extends ChangeNotifier {
       }
     } else {
       // Oddiy amal yoki raqam qo‘shish
+      if (isResultDisplayed) {
+        input = '';
+        isResultDisplayed = false;
+      }
       input += btnText;
       output = input;
     }
@@ -47,68 +63,74 @@ class ProviderClass extends ChangeNotifier {
   }
 
   bool _isOperator(String s) {
-    return s == '+' || s == '-' || s == '×' || s == '/';
+    return s == '+' || s == '-' || s == '×' || s == '/' || s == "%" || s == "π";
   }
 
-  // Natijani hisoblash
   void _calculateResult() {
     try {
+      String expressionString = input.replaceAll('×', '*').replaceAll('÷', '/');
+
+      if (expressionString.contains('%')) {
+        expressionString = _handlePercentage(expressionString);
+      }
+
+      expressionString = expressionString.replaceAll('π', pi.toString());
+
       Parser parser = Parser();
-      Expression expression = parser.parse(input);
+      Expression expression = parser.parse(expressionString);
       ContextModel contextModel = ContextModel();
       double eval = expression.evaluate(EvaluationType.REAL, contextModel);
       output = eval.toString();
       input = output;
+      oldInput = input;
+      isResultDisplayed = true;
     } catch (e) {
-      output = 'Error';
+      output = 'Improper use!';
       input = '';
+      isResultDisplayed = false;
     }
   }
 
-  // Maxsus funksiyalarni bajarish
-  void _handleSpecialFunction(String function) {
-    try {
-      double value = double.parse(input);
-      switch (function) {
-        case 'sin':
-          // output = sin(value * pi / 180).toString(); // Radyanlar bilan sin
-          output += "sin($value)";
-          break;
-        case 'cos':
-          output = cos(value * pi / 180).toString(); // Radyanlar bilan cos
-          break;
-        case 'tan':
-          output = tan(value * pi / 180).toString(); // Radyanlar bilan tan
-          break;
-        case 'ctan':
-          output =
-              (1 / tan(value * pi / 180)).toString(); // Radyanlar bilan ctan
-          break;
-        case '^2':
-          output = pow(value, 2).toString(); // Kvadrat
-          break;
-        case '^n':
-          // Siz n qiymatini keyin qo‘shishingiz mumkin
-          input += '^';
-          output = input;
-          return;
-        case 'n!':
-          output = _factorial(value.toInt()).toString(); // Faktorial
-          break;
-        case '√':
-          output = sqrt(value).toString(); // Ildiz
-          break;
-      }
-      input = output;
-    } catch (e) {
-      output = 'Error';
-      input = '';
-    }
+  String _handlePercentage(String expression) {
+    final regExp = RegExp(r'(\d+(\.\d+)?)%\s*(\d+(\.\d+)?)');
+    return expression.replaceAllMapped(regExp, (match) {
+      final firstNum = match.group(1);
+      final secondNum = match.group(3);
+      return '($firstNum * ($secondNum / 100))';
+    });
   }
 
-  // Faktorial hisoblash
-  int _factorial(int num) {
-    if (num <= 1) return 1;
-    return num * _factorial(num - 1);
+  void _appendSpecialFunction(String function) {
+    switch (function) {
+      case 'sin':
+        input += 'sin(';
+        break;
+      case 'cos':
+        input += 'cos(';
+        break;
+      case 'tan':
+        input += 'tan(';
+        break;
+      case 'ctan':
+        input += '1/tan(';
+        break;
+      case '^2':
+        input += '^2';
+        break;
+      case '^n':
+        input += '^';
+        break;
+      case 'n!':
+        input += '!';
+        break;
+      case '√':
+        input += 'sqrt(';
+        break;
+      case 'π':
+        input += 'π';
+        break;
+    }
+    output = input;
+    notifyListeners();
   }
 }

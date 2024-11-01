@@ -16,7 +16,22 @@ class FirstScreen extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Container(
+                alignment: Alignment.bottomRight,
+                padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.038,
+                  vertical: width * 0.05,
+                ),
+                child: Text(
+                  context.watch<ProviderClass>().oldInput,
+                  style: TextStyle(
+                    color: ColorClass.grey,
+                    fontSize: width * 0.065,
+                  ),
+                ),
+              ),
               Container(
                 alignment: Alignment.bottomRight,
                 padding: EdgeInsets.symmetric(
@@ -27,7 +42,7 @@ class FirstScreen extends StatelessWidget {
                   context.watch<ProviderClass>().output,
                   style: TextStyle(
                     color: ColorClass.white,
-                    fontSize: width * 0.07,
+                    fontSize: width * 0.085,
                   ),
                 ),
               ),
@@ -74,10 +89,10 @@ class FirstScreen extends StatelessWidget {
                   },
                 ),
                 ButtonWidget(
-                  text: '-/+ ',
+                  text: 'π',
                   color: ColorClass.orange,
                   onPressed: () {
-                    context.read<ProviderClass>().buttonPressed("-");
+                    context.read<ProviderClass>().buttonPressed("π");
                   },
                 ),
               ],
