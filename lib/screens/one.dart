@@ -24,34 +24,6 @@ class FirstScreen extends StatelessWidget {
                   vertical: width * 0.05,
                 ),
                 child: Text(
-                  context.watch<ProviderClass>().output1,
-                  style: TextStyle(
-                    color: ColorClass.white,
-                    fontSize: width * 0.07,
-                  ),
-                ),
-              ),
-              Container(
-                alignment: Alignment.bottomRight,
-                padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.038,
-                  vertical: width * 0.05,
-                ),
-                child: Text(
-                  context.watch<ProviderClass>().action,
-                  style: TextStyle(
-                    color: ColorClass.white,
-                    fontSize: width * 0.07,
-                  ),
-                ),
-              ),
-              Container(
-                alignment: Alignment.bottomRight,
-                padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.038,
-                  vertical: width * 0.05,
-                ),
-                child: Text(
                   context.watch<ProviderClass>().output,
                   style: TextStyle(
                     color: ColorClass.white,
@@ -88,30 +60,73 @@ class FirstScreen extends StatelessWidget {
                   },
                 ),
                 ButtonWidget(
-                  text: '+/-',
+                  text: '(',
+                  color: ColorClass.orange,
+                  onPressed: () {
+                    context.read<ProviderClass>().buttonPressed("(");
+                  },
+                ),
+                ButtonWidget(
+                  text: ')',
+                  color: ColorClass.orange,
+                  onPressed: () {
+                    context.read<ProviderClass>().buttonPressed(")");
+                  },
+                ),
+                ButtonWidget(
+                  text: '-/+ ',
                   color: ColorClass.orange,
                   onPressed: () {
                     context.read<ProviderClass>().buttonPressed("-");
-                  },
-                ),
-                ButtonWidget(
-                  text: '%',
-                  color: ColorClass.orange,
-                  onPressed: () {
-                    context.read<ProviderClass>().buttonPressed("%");
-                  },
-                ),
-                ButtonWidget(
-                  text: '÷',
-                  color: ColorClass.orange,
-                  onPressed: () {
-                    context.read<ProviderClass>().buttonPressed("÷");
                   },
                 ),
               ],
             ),
 //=========================================================================
 //=============================== << 2 >> =================================
+//=========================================================================
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ButtonWidget(
+                  text: 'sin',
+                  color: ColorClass.orange,
+                  onPressed: () {
+                    context.read<ProviderClass>().buttonPressed("sin");
+                  },
+                ),
+                ButtonWidget(
+                  text: 'cos',
+                  color: ColorClass.orange,
+                  onPressed: () {
+                    context.read<ProviderClass>().buttonPressed("cos");
+                  },
+                ),
+                ButtonWidget(
+                  text: 'tan',
+                  color: ColorClass.orange,
+                  onPressed: () {
+                    context.read<ProviderClass>().buttonPressed("tan");
+                  },
+                ),
+                ButtonWidget(
+                  text: 'ctan',
+                  color: ColorClass.orange,
+                  onPressed: () {
+                    context.read<ProviderClass>().buttonPressed("ctan");
+                  },
+                ),
+                ButtonWidget(
+                  text: '÷',
+                  color: ColorClass.orange,
+                  onPressed: () {
+                    context.read<ProviderClass>().buttonPressed("/");
+                  },
+                ),
+              ],
+            ),
+//=========================================================================
+//=============================== << 3 >> =================================
 //=========================================================================
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -154,7 +169,7 @@ class FirstScreen extends StatelessWidget {
               ],
             ),
 //=========================================================================
-//=============================== << 3 >> =================================
+//=============================== << 4 >> =================================
 //=========================================================================
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -197,16 +212,16 @@ class FirstScreen extends StatelessWidget {
               ],
             ),
 //=========================================================================
-//=============================== << 4 >> =================================
+//=============================== << 5 >> =================================
 //=========================================================================
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ButtonWidget(
-                  text: '( ',
+                  text: 'n!',
                   color: ColorClass.orange,
                   onPressed: () {
-                    context.read<ProviderClass>().buttonPressed("(");
+                    context.read<ProviderClass>().buttonPressed("!");
                   },
                 ),
                 ButtonWidget(
@@ -240,16 +255,16 @@ class FirstScreen extends StatelessWidget {
               ],
             ),
 //=========================================================================
-//=============================== << 5 >> =================================
+//=============================== << 6 >> =================================
 //=========================================================================
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ButtonWidget(
-                  text: ' )',
+                  text: ' %',
                   color: ColorClass.orange,
                   onPressed: () {
-                    context.read<ProviderClass>().buttonPressed(")");
+                    context.read<ProviderClass>().buttonPressed("%");
                   },
                 ),
                 ButtonWidget(

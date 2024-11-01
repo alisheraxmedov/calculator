@@ -15,44 +15,29 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        margin: const EdgeInsets.only(right: 1.0, bottom: 2.0),
-        width: width / 5.45,
-        height: width / 5,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(
-            width * 0.001,
+    return Expanded(
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          margin: const EdgeInsets.only(right: 1.0, bottom: 2.0),
+          // width: width / 5.1,
+          height: width / 5.1,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(
+              width * 0.01,
+            ),
           ),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: width * 0.09,
-            color: ColorClass.white,
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: width * 0.09,
+              color: ColorClass.white,
+            ),
           ),
         ),
       ),
     );
-    // return ElevatedButton(
-    //   onPressed: onPressed,
-    //   style: ElevatedButton.styleFrom(
-    //     padding: EdgeInsets.all(
-    //       width * 0.06,
-    //     ),
-    //     backgroundColor: color,
-    //     shape: const CircleBorder(),
-    //   ),
-    //   child: Text(
-    //     text,
-    //     style: TextStyle(
-    //       fontSize: width * 0.07,
-    //       color: ColorClass.white,
-    //     ),
-    //   ),
-    // );
   }
 }

@@ -1,97 +1,114 @@
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'dart:math';
 
 class ProviderClass extends ChangeNotifier {
-  String output = '';
-  String action = '';
-  String output1 = '';
   String input = '';
-  double num1 = 0;
-  double num2 = 0;
-  String operand = '';
+  String output = '0';
 
+  // Har bir tugma bosilganda ishlaydigan funksiya
   void buttonPressed(String btnText) {
     if (btnText == 'C') {
+      // Clear
       input = '';
       output = '0';
-      num1 = 0;
-      num2 = 0;
-      action = '';
-      output1 = '';
-      operand = '';
-    } else if (btnText == '+' ||
-        btnText == '-' ||
-        btnText == '×' ||
-        btnText == '÷') {
-      if (input.isNotEmpty) {
-        num1 = double.parse(input);
-        operand = btnText;
-//=====================================================
-        output1 = output;
-        action = operand;
-//=====================================================
-        // output = input + operand;
-        output = '';
-        input = '';
-      }
     } else if (btnText == '=') {
-      if (input.isNotEmpty && operand.isNotEmpty) {
-        num2 = double.parse(input);
-        switch (operand) {
-          case '+':
-            output = (num1 + num2).toString();
-            break;
-          case '-':
-            output = (num1 - num2).toString();
-            break;
-          case '×':
-            output = (num1 * num2).toString();
-            break;
-          case '÷':
-            output = (num1 / num2).toString();
-            break;
-        }
-        output1 = output; // Yangi hisoblash uchun natijani saqlash
-        operand = '';
-        action = '';
-        // output = '';
+      _calculateResult();
+    } else if (btnText == 'sin' ||
+        btnText == 'cos' ||
+        btnText == 'tan' ||
+        btnText == 'ctan' ||
+        btnText == 'n!' ||
+        btnText == '^2' ||
+        btnText == '^n' ||
+        btnText == '√') {
+      // Maxsus funksiyalarni bajarish
+      _handleSpecialFunction(btnText);
+    } else if (_isOperator(btnText)) {
+      // Agar amal kiritilgan bo‘lsa, oxirgi amalni almashtirish
+      if (input.isNotEmpty && _isOperator(input[input.length - 1])) {
+        input = input.substring(0, input.length - 1) + btnText;
+      } else {
+        input += btnText;
+      }
+      output = input;
+    } else if (btnText == '⨉') {
+      // Oxiridan bitta element o‘chirish
+      if (input.isNotEmpty) {
+        input = input.substring(0, input.length - 1);
+        output = input.isEmpty ? '0' : input;
       }
     } else {
-      input += btnText; // Raqamlarni inputga qo'shish
-      output = output == '0'
-          ? btnText
-          : output + btnText; // Raqamlarni outputga qo'shish
+      // Oddiy amal yoki raqam qo‘shish
+      input += btnText;
+      output = input;
     }
     notifyListeners();
   }
-//==================================================================
-//==================================================================
-//==================================================================
 
-  int currentIndex = 0;
-  void changeIndex(int index) {
-    currentIndex = index;
-    notifyListeners();
+  bool _isOperator(String s) {
+    return s == '+' || s == '-' || s == '×' || s == '/';
   }
 
-  String result = '';
-  void solveResult(String buttonText) {
-    if (buttonText == "C") {
-      result = '';
-    } else if (buttonText == '=') {
-      // Parser obyektini yaratish
+  // Natijani hisoblash
+  void _calculateResult() {
+    try {
       Parser parser = Parser();
-
-      // Ifodani analiz qilish
-      Expression expression = parser.parse(result);
-
-      // Kontekst yaratish (ixtiyoriy)
+      Expression expression = parser.parse(input);
       ContextModel contextModel = ContextModel();
-
-      // Ifodani baholash
-      result = expression.evaluate(EvaluationType.REAL, contextModel);
+      double eval = expression.evaluate(EvaluationType.REAL, contextModel);
+      output = eval.toString();
+      input = output;
+    } catch (e) {
+      output = 'Error';
+      input = '';
     }
-    result += buttonText;
-    notifyListeners();
+  }
+
+  // Maxsus funksiyalarni bajarish
+  void _handleSpecialFunction(String function) {
+    try {
+      double value = double.parse(input);
+      switch (function) {
+        case 'sin':
+          // output = sin(value * pi / 180).toString(); // Radyanlar bilan sin
+          output += "sin($value)";
+          break;
+        case 'cos':
+          output = cos(value * pi / 180).toString(); // Radyanlar bilan cos
+          break;
+        case 'tan':
+          output = tan(value * pi / 180).toString(); // Radyanlar bilan tan
+          break;
+        case 'ctan':
+          output =
+              (1 / tan(value * pi / 180)).toString(); // Radyanlar bilan ctan
+          break;
+        case '^2':
+          output = pow(value, 2).toString(); // Kvadrat
+          break;
+        case '^n':
+          // Siz n qiymatini keyin qo‘shishingiz mumkin
+          input += '^';
+          output = input;
+          return;
+        case 'n!':
+          output = _factorial(value.toInt()).toString(); // Faktorial
+          break;
+        case '√':
+          output = sqrt(value).toString(); // Ildiz
+          break;
+      }
+      input = output;
+    } catch (e) {
+      output = 'Error';
+      input = '';
+    }
+  }
+
+  // Faktorial hisoblash
+  int _factorial(int num) {
+    if (num <= 1) return 1;
+    return num * _factorial(num - 1);
   }
 }
