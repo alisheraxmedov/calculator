@@ -1,6 +1,6 @@
 name: calculator
 description: "A new Flutter project."
-version: 1.0.0+1
+version: 3.1.0+1
 
 environment:
   sdk: ^3.5.3
@@ -11,7 +11,8 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   provider: ^6.1.2
-  math_expressions: ^2.6.0
+  math_expressions: ^2.7.0
+  get_storage: ^2.1.1
 
 dev_dependencies:
   flutter_test:

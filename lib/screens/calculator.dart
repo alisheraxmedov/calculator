@@ -1,5 +1,6 @@
 import 'package:calculator/provider/provider.dart';
 import 'package:calculator/screens/one.dart';
+import 'package:calculator/widgets/drawer.dart';
 import 'package:calculator/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class CalculatorScreenState extends State<CalculatorScreen> {
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
@@ -39,6 +41,7 @@ class CalculatorScreenState extends State<CalculatorScreen> {
           ),
         ],
       ),
+      drawer: DrawerWidget(width: width),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: const FirstScreen(),
     );

@@ -18,35 +18,41 @@ class FirstScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Container(
-                alignment: Alignment.bottomRight,
-                padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.038,
-                  vertical: width * 0.05,
-                ),
-                child: Text(
-                  context.watch<ProviderClass>().oldInput,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize: width * 0.065,
+              Flexible(
+                child: Container(
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.038,
+                    vertical: width * 0.05,
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      context.watch<ProviderClass>().oldInput,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        fontSize: width * 0.065,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.bottomRight,
-                padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.038,
-                  vertical: width * 0.05,
-                ),
-                child: Text(
-                  context.watch<ProviderClass>().output,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: width * 0.085,
-                      ),
-                  // style: TextStyle(
-                  //   color: ColorClass.white,
-                  //   fontSize: width * 0.085,
-                  // ),
+              Flexible(
+                child: Container(
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.038,
+                    vertical: width * 0.05,
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      context.watch<ProviderClass>().output,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontSize: width * 0.085,
+                          ),
+                    ),
+                  ),
                 ),
               ),
             ],
