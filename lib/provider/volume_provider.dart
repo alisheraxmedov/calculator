@@ -9,7 +9,7 @@ class VolumeProvider extends ChangeNotifier {
   bool isResultDisplayed = false;
 
   final List<String> units = [
-    'cubic meter m³',
+    'Cubic meter m³',
     'Liter l',
     'Milliliter ml',
     'Cubic centimeter cm³',
@@ -18,7 +18,7 @@ class VolumeProvider extends ChangeNotifier {
 
 // Coefficients of units to cubic meters
   final Map<String, double> unitFactors = {
-    'cubic meter m³': 1.0,
+    'Cubic meter m³': 1.0,
     'Liter l': 1000.0,
     'Milliliter ml': 1000000.0,
     'Cubic centimeter cm³': 1000000.0,

@@ -1,16 +1,26 @@
 import 'dart:math';
 
+import 'package:calculator/provider/history_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:provider/provider.dart';
 
 class ProviderClass extends ChangeNotifier {
 //==================================================================
 //========================= CHANGE THEME ===========================
 //==================================================================
 
+  final box = GetStorage();
   bool isLight = false;
+
+  ProviderClass() {
+    isLight = box.read<bool>('isLight') ?? false;
+  }
+
   void changeTheme() {
     isLight = !isLight;
+    box.write('isLight', isLight);
     notifyListeners();
   }
 
@@ -21,8 +31,9 @@ class ProviderClass extends ChangeNotifier {
   String input = '';
   String output = '0';
   bool isResultDisplayed = false;
+  bool isAdvancedMode = false;
 
-  void buttonPressed(String btnText) {
+  void buttonPressed(String btnText, BuildContext context) {
     if (btnText == 'C') {
       // Clear
       input = '';
@@ -30,7 +41,7 @@ class ProviderClass extends ChangeNotifier {
       output = '0';
       isResultDisplayed = false;
     } else if (btnText == '=') {
-      _calculateResult();
+      _calculateResult(context);
     } else if (btnText == 'sin' ||
         btnText == 'cos' ||
         btnText == 'tan' ||
@@ -56,13 +67,13 @@ class ProviderClass extends ChangeNotifier {
       }
       output = input;
     } else if (btnText == '⨉') {
-      // Oxiridan bitta element o‘chirish
+      // Oxiridan bitta element o'chirish
       if (input.isNotEmpty) {
         input = input.substring(0, input.length - 1);
         output = input.isEmpty ? '0' : input;
       }
     } else {
-      // Oddiy amal yoki raqam qo‘shish
+      // Oddiy amal yoki raqam qo'shish
       if (isResultDisplayed) {
         input = '';
         isResultDisplayed = false;
@@ -77,7 +88,7 @@ class ProviderClass extends ChangeNotifier {
     return s == '+' || s == '-' || s == '×' || s == '/' || s == "%" || s == "π";
   }
 
-  void _calculateResult() {
+  void _calculateResult(BuildContext context) {
     try {
       String expressionString = input.replaceAll('×', '*').replaceAll('÷', '/');
 
@@ -92,6 +103,10 @@ class ProviderClass extends ChangeNotifier {
       ContextModel contextModel = ContextModel();
       double eval = expression.evaluate(EvaluationType.REAL, contextModel);
       output = eval.toString();
+      
+      // History ga saqlash
+      context.read<HistoryProvider>().addHistory(input, output);
+      
       input = output;
       oldInput = input;
       isResultDisplayed = true;
@@ -142,6 +157,20 @@ class ProviderClass extends ChangeNotifier {
         break;
     }
     output = input;
+    notifyListeners();
+  }
+
+  void toggleAdvancedMode() {
+    isAdvancedMode = !isAdvancedMode;
+    notifyListeners();
+  }
+
+  // History dan result qiymatini kalkulyatorga o'tkazish
+  void setResultFromHistory(String result) {
+    input = result;
+    output = result;
+    oldInput = '';
+    isResultDisplayed = true;
     notifyListeners();
   }
 }

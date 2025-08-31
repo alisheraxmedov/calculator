@@ -9,6 +9,7 @@ import 'package:calculator/consts/colors.dart';
 
 import 'package:calculator/screens/area_screen.dart';
 import 'package:calculator/screens/bmi_screen.dart';
+import 'package:calculator/screens/history_screen.dart';
 import 'package:calculator/screens/internet_screen.dart';
 import 'package:calculator/screens/length_screen.dart';
 import 'package:calculator/screens/speed_screen.dart';
@@ -29,6 +30,7 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> drawerItems = [
+      {'icon': Icons.history, 'title': 'History'},
       {'icon': Icons.straighten, 'title': 'Length'},
       {'icon': Icons.monitor_weight, 'title': 'Weight'},
       {'icon': Icons.crop_square, 'title': 'Square'},
@@ -59,19 +61,35 @@ class DrawerWidget extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.calculate,
-                    size: width * 0.12,
-                    color: ColorClass.white,
+                  Container(
+                    padding: EdgeInsets.all(width * 0.03),
+                    decoration: BoxDecoration(
+                      color: ColorClass.white.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.calculate,
+                      size: width * 0.12,
+                      color: ColorClass.white,
+                    ),
                   ),
-                  SizedBox(height: width * 0.02),
+                  SizedBox(height: width * 0.018),
                   Text(
-                    'Menu',
+                    'Calculator',
                     style: TextStyle(
                       color: ColorClass.white,
                       fontSize: width * 0.07,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.2,
+                    ),
+                  ),
+                  SizedBox(height: width * 0.01),
+                  Text(
+                    'Unit Converter',
+                    style: TextStyle(
+                      color: ColorClass.white.withOpacity(0.8),
+                      fontSize: width * 0.04,
+                      letterSpacing: 1.0,
                     ),
                   ),
                 ],
@@ -107,6 +125,9 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.pop(context);
                     Widget screen;
                     switch (item['title']) {
+                      case 'History':
+                        screen = const HistoryScreen();
+                        break;
                       case 'Lenth':
                         screen = const LengthScreen();
                         break;
@@ -139,7 +160,24 @@ class DrawerWidget extends StatelessWidget {
                     }
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => screen),
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) => screen,
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          const begin = Offset(1.0, 0.0);
+                          const end = Offset.zero;
+                          const curve = Curves.easeInOut;
+
+                          var tween = Tween(begin: begin, end: end).chain(
+                            CurveTween(curve: curve),
+                          );
+
+                          return SlideTransition(
+                            position: animation.drive(tween),
+                            child: child,
+                          );
+                        },
+                        transitionDuration: const Duration(milliseconds: 300),
+                      ),
                     );
                   },
                   hoverColor:

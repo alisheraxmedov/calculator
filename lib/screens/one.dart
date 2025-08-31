@@ -76,35 +76,44 @@ class FirstScreen extends StatelessWidget {
                     text: '⨉',
                     color: Theme.of(context).colorScheme.onSecondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("⨉");
+                      context.read<ProviderClass>().buttonPressed("⨉", context);
                     },
                   ),
                   ButtonWidget(
                     text: 'C',
                     color: Theme.of(context).colorScheme.onSecondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("C");
+                      context.read<ProviderClass>().buttonPressed("C", context);
                     },
                   ),
                   ButtonWidget(
-                    text: '(',
+                    text: '%',
                     color: Theme.of(context).colorScheme.primary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("(");
+                      context.read<ProviderClass>().buttonPressed("%", context);
                     },
                   ),
                   ButtonWidget(
-                    text: ')',
+                    text: '÷',
                     color: Theme.of(context).colorScheme.primary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed(")");
+                      context.read<ProviderClass>().buttonPressed("/", context);
                     },
                   ),
-                  ButtonWidget(
-                    text: 'π',
-                    color: Theme.of(context).colorScheme.primary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("π");
+                  Consumer<ProviderClass>(
+                    builder: (context, provider, child) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        child: provider.isAdvancedMode
+                            ? ButtonWidget(
+                                text: '⇆',
+                                color: Theme.of(context).colorScheme.onSecondary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().toggleAdvancedMode();
+                                },
+                              )
+                            : const SizedBox(width: 0),
+                      );
                     },
                   ),
                 ],
@@ -116,38 +125,47 @@ class FirstScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ButtonWidget(
-                    text: 'sin',
-                    color: Theme.of(context).colorScheme.primary,
+                    text: '7',
+                    color: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("sin");
+                      context.read<ProviderClass>().buttonPressed("7", context);
                     },
                   ),
                   ButtonWidget(
-                    text: 'cos',
-                    color: Theme.of(context).colorScheme.primary,
+                    text: '8',
+                    color: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("cos");
+                      context.read<ProviderClass>().buttonPressed("8", context);
                     },
                   ),
                   ButtonWidget(
-                    text: 'tan',
-                    color: Theme.of(context).colorScheme.primary,
+                    text: '9',
+                    color: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("tan");
+                      context.read<ProviderClass>().buttonPressed("9", context);
                     },
                   ),
                   ButtonWidget(
-                    text: 'ctan',
+                    text: '×',
                     color: Theme.of(context).colorScheme.primary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("ctan");
+                      context.read<ProviderClass>().buttonPressed("×", context);
                     },
                   ),
-                  ButtonWidget(
-                    text: '÷',
-                    color: Theme.of(context).colorScheme.primary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("/");
+                  Consumer<ProviderClass>(
+                    builder: (context, provider, child) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        child: provider.isAdvancedMode
+                            ? ButtonWidget(
+                                text: 'π',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed("π", context);
+                                },
+                              )
+                            : const SizedBox(width: 0),
+                      );
                     },
                   ),
                 ],
@@ -159,38 +177,47 @@ class FirstScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ButtonWidget(
-                    text: '^2',
+                    text: '4',
+                    color: Theme.of(context).colorScheme.secondary,
+                    onPressed: () {
+                      context.read<ProviderClass>().buttonPressed("4", context);
+                    },
+                  ),
+                  ButtonWidget(
+                    text: '5',
+                    color: Theme.of(context).colorScheme.secondary,
+                    onPressed: () {
+                      context.read<ProviderClass>().buttonPressed("5", context);
+                    },
+                  ),
+                  ButtonWidget(
+                    text: '6',
+                    color: Theme.of(context).colorScheme.secondary,
+                    onPressed: () {
+                      context.read<ProviderClass>().buttonPressed("6", context);
+                    },
+                  ),
+                  ButtonWidget(
+                    text: '-',
                     color: Theme.of(context).colorScheme.primary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("^2");
+                      context.read<ProviderClass>().buttonPressed("-", context);
                     },
                   ),
-                  ButtonWidget(
-                    text: '7',
-                    color: Theme.of(context).colorScheme.secondary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("7");
-                    },
-                  ),
-                  ButtonWidget(
-                    text: '8',
-                    color: Theme.of(context).colorScheme.secondary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("8");
-                    },
-                  ),
-                  ButtonWidget(
-                    text: '9',
-                    color: Theme.of(context).colorScheme.secondary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("9");
-                    },
-                  ),
-                  ButtonWidget(
-                    text: '×',
-                    color: Theme.of(context).colorScheme.primary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("×");
+                  Consumer<ProviderClass>(
+                    builder: (context, provider, child) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        child: provider.isAdvancedMode
+                            ? ButtonWidget(
+                                text: 'sin',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed("sin", context);
+                                },
+                              )
+                            : const SizedBox(width: 0),
+                      );
                     },
                   ),
                 ],
@@ -202,38 +229,47 @@ class FirstScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ButtonWidget(
-                    text: '^n',
-                    color: Theme.of(context).colorScheme.primary,
+                    text: '1',
+                    color: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("^");
+                      context.read<ProviderClass>().buttonPressed("1", context);
                     },
                   ),
                   ButtonWidget(
-                    text: '4',
+                    text: '2',
                     color: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("4");
+                      context.read<ProviderClass>().buttonPressed("2", context);
                     },
                   ),
                   ButtonWidget(
-                    text: '5',
+                    text: '3',
                     color: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("5");
-                    },
-                  ),
-                  ButtonWidget(
-                    text: '6',
-                    color: Theme.of(context).colorScheme.secondary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("6");
+                      context.read<ProviderClass>().buttonPressed("3", context);
                     },
                   ),
                   ButtonWidget(
                     text: '+',
                     color: Theme.of(context).colorScheme.primary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("+");
+                      context.read<ProviderClass>().buttonPressed("+", context);
+                    },
+                  ),
+                  Consumer<ProviderClass>(
+                    builder: (context, provider, child) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        child: provider.isAdvancedMode
+                            ? ButtonWidget(
+                                text: 'cos',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed("cos", context);
+                                },
+                              )
+                            : const SizedBox(width: 0),
+                      );
                     },
                   ),
                 ],
@@ -245,38 +281,62 @@ class FirstScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ButtonWidget(
-                    text: 'n!',
-                    color: Theme.of(context).colorScheme.primary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("!");
-                    },
-                  ),
-                  ButtonWidget(
-                    text: '1',
+                    text: '0',
                     color: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("1");
+                      context.read<ProviderClass>().buttonPressed("0", context);
                     },
                   ),
                   ButtonWidget(
-                    text: '2',
+                    text: '.',
                     color: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("2");
+                      context.read<ProviderClass>().buttonPressed(".", context);
                     },
                   ),
                   ButtonWidget(
-                    text: '3',
-                    color: Theme.of(context).colorScheme.secondary,
+                    text: '=',
+                    color: Theme.of(context).colorScheme.onSecondary,
                     onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("3");
+                      context.read<ProviderClass>().buttonPressed("=", context);
                     },
                   ),
-                  ButtonWidget(
-                    text: '-',
-                    color: Theme.of(context).colorScheme.primary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("-");
+                  Consumer<ProviderClass>(
+                    builder: (context, provider, child) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        child: provider.isAdvancedMode
+                            ? ButtonWidget(
+                                text: 'tan',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed("tan", context);
+                                },
+                              )
+                            : ButtonWidget(
+                                text: '⇆',
+                                color: Theme.of(context).colorScheme.onSecondary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().toggleAdvancedMode();
+                                },
+                              ),
+                      );
+                    },
+                  ),
+                  Consumer<ProviderClass>(
+                    builder: (context, provider, child) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        child: provider.isAdvancedMode
+                            ? ButtonWidget(
+                                text: 'ctan',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed("ctan", context);
+                                },
+                              )
+                            : const SizedBox(width: 0),
+                      );
                     },
                   ),
                 ],
@@ -284,46 +344,56 @@ class FirstScreen extends StatelessWidget {
               //=========================================================================
               //=============================== << 6 >> =================================
               //=========================================================================
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ButtonWidget(
-                    text: ' %',
-                    color: Theme.of(context).colorScheme.primary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("%");
-                    },
-                  ),
-                  ButtonWidget(
-                    text: '0',
-                    color: Theme.of(context).colorScheme.secondary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("0");
-                    },
-                  ),
-                  ButtonWidget(
-                    text: '.',
-                    color: Theme.of(context).colorScheme.secondary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed(".");
-                    },
-                  ),
-                  ButtonWidget(
-                    text: '=',
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("="); // ❌
-                    },
-                  ),
-                  ButtonWidget(
-                    text: '√',
-                    color: Theme.of(context).colorScheme.primary,
-                    onPressed: () {
-                      context.read<ProviderClass>().buttonPressed("√");
-                    },
-                  ),
-                ],
+              Consumer<ProviderClass>(
+                builder: (context, provider, child) {
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    child: provider.isAdvancedMode
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ButtonWidget(
+                                text: '(',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed("(", context);
+                                },
+                              ),
+                              ButtonWidget(
+                                text: ')',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed(")", context);
+                                },
+                              ),
+                              ButtonWidget(
+                                text: '√',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed("√", context);
+                                },
+                              ),
+                              ButtonWidget(
+                                text: '^n',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed("^", context);
+                                },
+                              ),
+                              ButtonWidget(
+                                text: 'n!',
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  context.read<ProviderClass>().buttonPressed("!", context);
+                                },
+                              ),
+                            ],
+                          )
+                        : const SizedBox(width: 0),
+                  );
+                },
               ),
+
             ],
           ),
         )
