@@ -23,6 +23,13 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
+    final bool isLightTheme = Theme.of(context).brightness == Brightness.light;
+    final colorScheme = Theme.of(context).colorScheme;
+    final Color textColor = isLightTheme && 
+        (widget.color == colorScheme.secondary || widget.color == colorScheme.onSecondary)
+        ? ColorClass.black 
+        : ColorClass.white;
+    
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) => setState(() => _isPressed = false),
@@ -62,7 +69,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
           text: widget.text,
           fontSize: width * 0.055,
           fontWeight: FontWeight.bold,
-          color: ColorClass.white,
+          color: textColor,
         ),
       ),
     );

@@ -53,7 +53,7 @@ class DrawerWidget extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [
                   Theme.of(context).colorScheme.primary,
-                  Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.8),
                 ],
               ),
             ),
@@ -64,9 +64,11 @@ class DrawerWidget extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(width * 0.03),
                     decoration: BoxDecoration(
-                      color: ColorClass.white.withOpacity(0.2),
+                      color: ColorClass.white.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
                     ),
+                    clipBehavior: Clip.antiAlias,
+                    alignment: Alignment.center,
                     child: Icon(
                       Icons.calculate,
                       size: width * 0.12,
@@ -83,15 +85,6 @@ class DrawerWidget extends StatelessWidget {
                       letterSpacing: 1.2,
                     ),
                   ),
-                  SizedBox(height: width * 0.01),
-                  Text(
-                    'Unit Converter',
-                    style: TextStyle(
-                      color: ColorClass.white.withOpacity(0.8),
-                      fontSize: width * 0.04,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -106,7 +99,7 @@ class DrawerWidget extends StatelessWidget {
                       color: Theme.of(context)
                           .colorScheme
                           .primary
-                          .withOpacity(0.1),
+                          .withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(width * 0.02),
                     ),
                     child: Icon(
@@ -181,7 +174,7 @@ class DrawerWidget extends StatelessWidget {
                     );
                   },
                   hoverColor:
-                      Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(width * 0.02),
                   ),
@@ -189,7 +182,7 @@ class DrawerWidget extends StatelessWidget {
                 if (drawerItems.indexOf(item) != drawerItems.length - 1)
                   Divider(
                     height: 1,
-                    color: Theme.of(context).dividerColor.withOpacity(0.1),
+                    color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
                   ),
               ],
             );
