@@ -31,7 +31,7 @@ class BMIScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: width * 0.08),
                     Text(
-                      'Jins',
+                      'Gender',
                       style: TextStyle(
                         fontSize: width * 0.045,
                         fontWeight: FontWeight.w500,
@@ -44,12 +44,17 @@ class BMIScreen extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () => provider.updateGender('Male'),
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: width * 0.03),
+                              padding:
+                                  EdgeInsets.symmetric(vertical: width * 0.03),
                               decoration: BoxDecoration(
                                 color: provider.gender == 'Male'
                                     ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(width * 0.03),
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withValues(alpha: 0.1),
+                                borderRadius:
+                                    BorderRadius.circular(width * 0.03),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +71,9 @@ class BMIScreen extends StatelessWidget {
                                     style: TextStyle(
                                       color: provider.gender == 'Male'
                                           ? ColorClass.white
-                                          : Theme.of(context).colorScheme.primary,
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                       fontSize: width * 0.045,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -81,12 +88,17 @@ class BMIScreen extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () => provider.updateGender('Female'),
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: width * 0.03),
+                              padding:
+                                  EdgeInsets.symmetric(vertical: width * 0.03),
                               decoration: BoxDecoration(
                                 color: provider.gender == 'Female'
                                     ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(width * 0.03),
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withValues(alpha: 0.1),
+                                borderRadius:
+                                    BorderRadius.circular(width * 0.03),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +115,9 @@ class BMIScreen extends StatelessWidget {
                                     style: TextStyle(
                                       color: provider.gender == 'Female'
                                           ? ColorClass.white
-                                          : Theme.of(context).colorScheme.primary,
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                       fontSize: width * 0.045,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -132,7 +146,7 @@ class BMIScreen extends StatelessWidget {
                       onChanged: provider.updateHeight,
                     ),
                     Text(
-                      '${provider.height.round()} sm',
+                      '${provider.height.round()} cm',
                       style: TextStyle(
                         fontSize: width * 0.05,
                         color: ColorClass.orange,
@@ -168,7 +182,10 @@ class BMIScreen extends StatelessWidget {
                       width: width * 0.9,
                       padding: EdgeInsets.all(width * 0.05),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(width * 0.05),
                       ),
                       child: Column(
@@ -187,7 +204,7 @@ class BMIScreen extends StatelessWidget {
                             'Category: ${provider.category}',
                             style: TextStyle(
                               fontSize: width * 0.045,
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                           SizedBox(height: width * 0.02),
@@ -195,7 +212,7 @@ class BMIScreen extends StatelessWidget {
                             'Gender: ${provider.gender}',
                             style: TextStyle(
                               fontSize: width * 0.045,
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ],
@@ -210,4 +227,4 @@ class BMIScreen extends StatelessWidget {
       ),
     );
   }
-} 
+}

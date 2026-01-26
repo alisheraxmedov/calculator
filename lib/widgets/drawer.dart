@@ -43,7 +43,7 @@ class DrawerWidget extends StatelessWidget {
     ];
     return Drawer(
       width: width * 0.8,
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       child: ListView(
         children: [
           DrawerHeader(
@@ -154,8 +154,10 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) => screen,
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            screen,
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
                           const begin = Offset(1.0, 0.0);
                           const end = Offset.zero;
                           const curve = Curves.easeInOut;
@@ -173,8 +175,10 @@ class DrawerWidget extends StatelessWidget {
                       ),
                     );
                   },
-                  hoverColor:
-                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                  hoverColor: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withValues(alpha: 0.1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(width * 0.02),
                   ),
@@ -182,7 +186,8 @@ class DrawerWidget extends StatelessWidget {
                 if (drawerItems.indexOf(item) != drawerItems.length - 1)
                   Divider(
                     height: 1,
-                    color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+                    color:
+                        Theme.of(context).dividerColor.withValues(alpha: 0.1),
                   ),
               ],
             );

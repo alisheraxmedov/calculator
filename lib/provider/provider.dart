@@ -98,15 +98,20 @@ class ProviderClass extends ChangeNotifier {
 
       expressionString = expressionString.replaceAll('π', pi.toString());
 
-      Parser parser = Parser();
+      GrammarParser parser = GrammarParser();
       Expression expression = parser.parse(expressionString);
       ContextModel contextModel = ContextModel();
       double eval = expression.evaluate(EvaluationType.REAL, contextModel);
-      output = eval.toString();
-      
+
+      if (eval == eval.truncate()) {
+        output = eval.truncate().toString();
+      } else {
+        output = eval.toString();
+      }
+
       // History ga saqlash
       context.read<HistoryProvider>().addHistory(input, output);
-      
+
       input = output;
       oldInput = input;
       isResultDisplayed = true;
