@@ -9,6 +9,7 @@ import 'package:calculator/consts/colors.dart';
 
 import 'package:calculator/screens/area_screen.dart';
 import 'package:calculator/screens/bmi_screen.dart';
+import 'package:calculator/screens/history_screen.dart';
 import 'package:calculator/screens/internet_screen.dart';
 import 'package:calculator/screens/length_screen.dart';
 import 'package:calculator/screens/speed_screen.dart';
@@ -29,6 +30,7 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> drawerItems = [
+      {'icon': Icons.history, 'title': 'History'},
       {'icon': Icons.straighten, 'title': 'Length'},
       {'icon': Icons.monitor_weight, 'title': 'Weight'},
       {'icon': Icons.crop_square, 'title': 'Square'},
@@ -41,7 +43,7 @@ class DrawerWidget extends StatelessWidget {
     ];
     return Drawer(
       width: width * 0.8,
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       child: ListView(
         children: [
           DrawerHeader(
@@ -51,7 +53,7 @@ class DrawerWidget extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [
                   Theme.of(context).colorScheme.primary,
-                  Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.8),
                 ],
               ),
             ),
@@ -59,14 +61,23 @@ class DrawerWidget extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.calculate,
-                    size: width * 0.12,
-                    color: ColorClass.white,
+                  Container(
+                    padding: EdgeInsets.all(width * 0.03),
+                    decoration: BoxDecoration(
+                      color: ColorClass.white.withValues(alpha: 0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.calculate,
+                      size: width * 0.12,
+                      color: ColorClass.white,
+                    ),
                   ),
-                  SizedBox(height: width * 0.02),
+                  SizedBox(height: width * 0.018),
                   Text(
-                    'Menu',
+                    'Calculator',
                     style: TextStyle(
                       color: ColorClass.white,
                       fontSize: width * 0.07,
@@ -88,7 +99,7 @@ class DrawerWidget extends StatelessWidget {
                       color: Theme.of(context)
                           .colorScheme
                           .primary
-                          .withOpacity(0.1),
+                          .withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(width * 0.02),
                     ),
                     child: Icon(
@@ -107,7 +118,10 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.pop(context);
                     Widget screen;
                     switch (item['title']) {
-                      case 'Lenth':
+                      case 'History':
+                        screen = const HistoryScreen();
+                        break;
+                      case 'Length':
                         screen = const LengthScreen();
                         break;
                       case 'Weight':
@@ -139,11 +153,32 @@ class DrawerWidget extends StatelessWidget {
                     }
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => screen),
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            screen,
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          const begin = Offset(1.0, 0.0);
+                          const end = Offset.zero;
+                          const curve = Curves.easeInOut;
+
+                          var tween = Tween(begin: begin, end: end).chain(
+                            CurveTween(curve: curve),
+                          );
+
+                          return SlideTransition(
+                            position: animation.drive(tween),
+                            child: child,
+                          );
+                        },
+                        transitionDuration: const Duration(milliseconds: 300),
+                      ),
                     );
                   },
-                  hoverColor:
-                      Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  hoverColor: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withValues(alpha: 0.1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(width * 0.02),
                   ),
@@ -151,7 +186,8 @@ class DrawerWidget extends StatelessWidget {
                 if (drawerItems.indexOf(item) != drawerItems.length - 1)
                   Divider(
                     height: 1,
-                    color: Theme.of(context).dividerColor.withOpacity(0.1),
+                    color:
+                        Theme.of(context).dividerColor.withValues(alpha: 0.1),
                   ),
               ],
             );
