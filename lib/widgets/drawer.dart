@@ -121,7 +121,7 @@ class DrawerWidget extends StatelessWidget {
                       case 'History':
                         screen = const HistoryScreen();
                         break;
-                      case 'Lenth':
+                      case 'Length':
                         screen = const LengthScreen();
                         break;
                       case 'Weight':
