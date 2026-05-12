@@ -5,45 +5,36 @@ import 'package:calculator/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CalculatorScreen extends StatefulWidget {
+class CalculatorScreen extends StatelessWidget {
   const CalculatorScreen({super.key});
 
-  @override
-  CalculatorScreenState createState() => CalculatorScreenState();
-}
-
-class CalculatorScreenState extends State<CalculatorScreen> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
-          centerTitle: true,
           title: TextWidget(
             width: width,
-            text: "Calculator",
+            text: 'Calculator',
             fontSize: width * 0.08,
             letterSpacing: 1.0,
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
           ),
           actions: [
-            IconButton(
-              onPressed: () {
-                context.read<ProviderClass>().changeTheme();
-              },
-              icon: Icon(
-                context.watch<ProviderClass>().isLight
-                    ? Icons.dark_mode
-                    : Icons.light_mode,
-                color: Theme.of(context).colorScheme.primary,
+            Selector<ProviderClass, bool>(
+              selector: (_, p) => p.isLight,
+              builder: (context, isLight, _) => IconButton(
+                onPressed: context.read<ProviderClass>().changeTheme,
+                icon: Icon(
+                  isLight ? Icons.dark_mode : Icons.light_mode,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ),
           ],
         ),
         drawer: DrawerWidget(width: width),
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         body: const FirstScreen(),
       ),
     );

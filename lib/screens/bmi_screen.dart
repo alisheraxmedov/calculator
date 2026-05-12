@@ -21,8 +21,6 @@ class BMIScreen extends StatelessWidget {
                   onPressed: () => Navigator.pop(context),
                 ),
                 title: const Text('Body Mass Index'),
-                centerTitle: true,
-                elevation: 0,
               ),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),

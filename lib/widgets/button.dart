@@ -1,11 +1,12 @@
 import 'package:calculator/consts/colors.dart';
 import 'package:calculator/widgets/text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ButtonWidget extends StatefulWidget {
   final Color color;
   final String text;
-  final void Function()? onPressed;
+  final VoidCallback? onPressed;
   const ButtonWidget({
     super.key,
     required this.color,
@@ -18,7 +19,12 @@ class ButtonWidget extends StatefulWidget {
 }
 
 class _ButtonWidgetState extends State<ButtonWidget> {
-  bool _isPressed = false;
+  bool _pressed = false;
+
+  void _setPressed(bool value) {
+    if (_pressed == value) return;
+    setState(() => _pressed = value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,38 +37,64 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         ? ColorClass.black
         : ColorClass.white;
 
+    final double size = width / 6;
+    final BorderRadius radius = BorderRadius.circular(width * 0.05);
+    final Color highlight =
+        Color.lerp(widget.color, Colors.white, 0.18) ?? widget.color;
+    final Color lowlight =
+        Color.lerp(widget.color, Colors.black, 0.10) ?? widget.color;
+
     return GestureDetector(
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapUp: (_) => setState(() => _isPressed = false),
-      onTapCancel: () => setState(() => _isPressed = false),
-      onTap: widget.onPressed,
-      child: Transform.scale(
-        scale: _isPressed ? 0.95 : 1.0,
+      behavior: HitTestBehavior.opaque,
+      onTapDown: (_) => _setPressed(true),
+      onTapUp: (_) => _setPressed(false),
+      onTapCancel: () => _setPressed(false),
+      onTap: widget.onPressed == null
+          ? null
+          : () {
+              HapticFeedback.lightImpact();
+              widget.onPressed!();
+            },
+      child: AnimatedScale(
+        scale: _pressed ? 0.92 : 1.0,
+        duration: const Duration(milliseconds: 130),
+        curve: _pressed ? Curves.easeOut : Curves.easeOutBack,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 100),
-          height: width / 6,
-          width: width / 6,
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeOut,
+          height: size,
+          width: size,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                widget.color,
-                widget.color.withValues(alpha: 0.8),
-              ],
+              colors: _pressed
+                  ? [
+                      widget.color.withValues(alpha: 0.78),
+                      widget.color.withValues(alpha: 0.60),
+                    ]
+                  : [highlight, widget.color, lowlight],
+              stops: _pressed ? null : const [0.0, 0.55, 1.0],
             ),
-            borderRadius: BorderRadius.circular(width * 0.05),
+            borderRadius: radius,
             border: Border.all(
-              color: ColorClass.white.withValues(alpha: 0.2),
-              width: 1.5,
+              color: Colors.white.withValues(alpha: _pressed ? 0.08 : 0.22),
+              width: 1.2,
             ),
             boxShadow: [
               BoxShadow(
-                color: widget.color.withValues(alpha: 0.3),
-                blurRadius: _isPressed ? 5 : 10,
-                offset: _isPressed ? const Offset(0, 2) : const Offset(0, 5),
+                color: widget.color.withValues(alpha: _pressed ? 0.18 : 0.34),
+                blurRadius: _pressed ? 4 : 14,
+                spreadRadius: _pressed ? 0 : 0.4,
+                offset: _pressed ? const Offset(0, 1) : const Offset(0, 6),
               ),
+              if (!_pressed)
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.07),
+                  blurRadius: 1,
+                  offset: const Offset(0, -1),
+                ),
             ],
           ),
           child: TextWidget(

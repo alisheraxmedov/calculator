@@ -1,12 +1,4 @@
-/*
-Keyinchalik:mana shu qismlarni ham qo'shish kerak
-{'icon': Icons.currency_exchange, 'title': 'Valyuta'},
-{'icon': Icons.local_offer, 'title': 'Chegirma'},
-{'icon': Icons.qr_code, 'title': 'Raqamli tizim'},
- */
-
 import 'package:calculator/consts/colors.dart';
-
 import 'package:calculator/screens/area_screen.dart';
 import 'package:calculator/screens/bmi_screen.dart';
 import 'package:calculator/screens/history_screen.dart';
@@ -17,8 +9,56 @@ import 'package:calculator/screens/temperature_screen.dart';
 import 'package:calculator/screens/time_screen.dart';
 import 'package:calculator/screens/volume_screen.dart';
 import 'package:calculator/screens/weight_screen.dart';
-
 import 'package:flutter/material.dart';
+
+/// Yumshoq slide + fade + delicate scale o'tish — drawer'dan ochiluvchi
+/// sahifalar uchun. Standart MaterialPageRoute'dan mayinroq tezlash/sekinlashish
+/// va kichik parallax tuyg'usi beradi.
+PageRoute<T> _smoothPushRoute<T>(WidgetBuilder builder) {
+  return PageRouteBuilder<T>(
+    pageBuilder: (context, _, __) => builder(context),
+    transitionDuration: const Duration(milliseconds: 480),
+    reverseTransitionDuration: const Duration(milliseconds: 360),
+    transitionsBuilder: (_, animation, __, child) {
+      final slide = Tween<Offset>(
+        begin: const Offset(0.22, 0),
+        end: Offset.zero,
+      ).chain(CurveTween(curve: Curves.easeOutCubic)).animate(animation);
+
+      final scale = Tween<double>(begin: 0.96, end: 1).chain(
+        CurveTween(curve: Curves.easeOutCubic),
+      ).animate(animation);
+
+      final fade = CurvedAnimation(
+        parent: animation,
+        curve: const Interval(0, 0.7, curve: Curves.easeOut),
+        reverseCurve: const Interval(0.3, 1, curve: Curves.easeIn),
+      );
+
+      return FadeTransition(
+        opacity: fade,
+        child: SlideTransition(
+          position: slide,
+          child: ScaleTransition(
+            scale: scale,
+            child: child,
+          ),
+        ),
+      );
+    },
+  );
+}
+
+class _DrawerItem {
+  final IconData icon;
+  final String title;
+  final WidgetBuilder builder;
+  const _DrawerItem({
+    required this.icon,
+    required this.title,
+    required this.builder,
+  });
+}
 
 class DrawerWidget extends StatelessWidget {
   final double width;
@@ -27,23 +67,65 @@ class DrawerWidget extends StatelessWidget {
     required this.width,
   });
 
+  static final List<_DrawerItem> _items = [
+    _DrawerItem(
+      icon: Icons.history,
+      title: 'History',
+      builder: (_) => const HistoryScreen(),
+    ),
+    _DrawerItem(
+      icon: Icons.straighten,
+      title: 'Length',
+      builder: (_) => const LengthScreen(),
+    ),
+    _DrawerItem(
+      icon: Icons.monitor_weight,
+      title: 'Weight',
+      builder: (_) => const WeightScreen(),
+    ),
+    _DrawerItem(
+      icon: Icons.crop_square,
+      title: 'Square',
+      builder: (_) => const AreaScreen(),
+    ),
+    _DrawerItem(
+      icon: Icons.access_time,
+      title: 'Time',
+      builder: (_) => const TimeScreen(),
+    ),
+    _DrawerItem(
+      icon: Icons.wifi,
+      title: 'Mobile Internet',
+      builder: (_) => const InternetScreen(),
+    ),
+    _DrawerItem(
+      icon: Icons.inbox,
+      title: 'Size',
+      builder: (_) => const VolumeScreen(),
+    ),
+    _DrawerItem(
+      icon: Icons.speed,
+      title: 'Speed',
+      builder: (_) => const SpeedScreen(),
+    ),
+    _DrawerItem(
+      icon: Icons.thermostat,
+      title: 'Temperature',
+      builder: (_) => const TemperatureScreen(),
+    ),
+    _DrawerItem(
+      icon: Icons.data_usage,
+      title: 'BMI',
+      builder: (_) => const BMIScreen(),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> drawerItems = [
-      {'icon': Icons.history, 'title': 'History'},
-      {'icon': Icons.straighten, 'title': 'Length'},
-      {'icon': Icons.monitor_weight, 'title': 'Weight'},
-      {'icon': Icons.crop_square, 'title': 'Square'},
-      {'icon': Icons.access_time, 'title': 'Time'},
-      {'icon': Icons.wifi, 'title': 'Mobile Internet'},
-      {'icon': Icons.inbox, 'title': 'Size'},
-      {'icon': Icons.speed, 'title': 'Speed'},
-      {'icon': Icons.thermostat, 'title': 'Temperature'},
-      {'icon': Icons.data_usage, 'title': 'BMI'},
-    ];
+    final colorScheme = Theme.of(context).colorScheme;
     return Drawer(
       width: width * 0.8,
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: colorScheme.surface,
       child: ListView(
         children: [
           DrawerHeader(
@@ -52,8 +134,8 @@ class DrawerWidget extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Theme.of(context).colorScheme.primary,
-                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.8),
+                  colorScheme.primary,
+                  colorScheme.primary.withValues(alpha: 0.8),
                 ],
               ),
             ),
@@ -67,7 +149,6 @@ class DrawerWidget extends StatelessWidget {
                       color: ColorClass.white.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
                     ),
-                    clipBehavior: Clip.antiAlias,
                     alignment: Alignment.center,
                     child: Icon(
                       Icons.calculate,
@@ -89,110 +170,44 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
           ),
-          ...drawerItems.map((item) {
-            return Column(
-              children: [
-                ListTile(
-                  leading: Container(
-                    padding: EdgeInsets.all(width * 0.02),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(width * 0.02),
-                    ),
-                    child: Icon(
-                      item['icon'],
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  title: Text(
-                    item['title'],
-                    style: TextStyle(
-                      fontSize: width * 0.04,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Widget screen;
-                    switch (item['title']) {
-                      case 'History':
-                        screen = const HistoryScreen();
-                        break;
-                      case 'Length':
-                        screen = const LengthScreen();
-                        break;
-                      case 'Weight':
-                        screen = const WeightScreen();
-                        break;
-                      case 'Square':
-                        screen = const AreaScreen();
-                        break;
-                      case 'Time':
-                        screen = const TimeScreen();
-                        break;
-                      case 'Mobile Internet':
-                        screen = const InternetScreen();
-                        break;
-                      case 'Size':
-                        screen = const VolumeScreen();
-                        break;
-                      case 'Speed':
-                        screen = const SpeedScreen();
-                        break;
-                      case 'Temperature':
-                        screen = const TemperatureScreen();
-                        break;
-                      case 'BMI':
-                        screen = const BMIScreen();
-                        break;
-                      default:
-                        screen = const LengthScreen();
-                    }
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            screen,
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          const begin = Offset(1.0, 0.0);
-                          const end = Offset.zero;
-                          const curve = Curves.easeInOut;
-
-                          var tween = Tween(begin: begin, end: end).chain(
-                            CurveTween(curve: curve),
-                          );
-
-                          return SlideTransition(
-                            position: animation.drive(tween),
-                            child: child,
-                          );
-                        },
-                        transitionDuration: const Duration(milliseconds: 300),
-                      ),
-                    );
-                  },
-                  hoverColor: Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withValues(alpha: 0.1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(width * 0.02),
-                  ),
-                ),
-                if (drawerItems.indexOf(item) != drawerItems.length - 1)
-                  Divider(
-                    height: 1,
-                    color:
-                        Theme.of(context).dividerColor.withValues(alpha: 0.1),
-                  ),
-              ],
-            );
-          }),
+          for (int i = 0; i < _items.length; i++) ...[
+            _buildTile(context, _items[i]),
+            if (i != _items.length - 1)
+              Divider(
+                height: 1,
+                color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+              ),
+          ],
         ],
+      ),
+    );
+  }
+
+  Widget _buildTile(BuildContext context, _DrawerItem item) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return ListTile(
+      leading: Container(
+        padding: EdgeInsets.all(width * 0.02),
+        decoration: BoxDecoration(
+          color: colorScheme.primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(width * 0.02),
+        ),
+        child: Icon(item.icon, color: colorScheme.primary),
+      ),
+      title: Text(
+        item.title,
+        style: TextStyle(
+          fontSize: width * 0.04,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.push<void>(context, _smoothPushRoute(item.builder));
+      },
+      hoverColor: colorScheme.primary.withValues(alpha: 0.1),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(width * 0.02),
       ),
     );
   }

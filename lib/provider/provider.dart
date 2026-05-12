@@ -7,26 +7,26 @@ import 'package:math_expressions/math_expressions.dart';
 import 'package:provider/provider.dart';
 
 class ProviderClass extends ChangeNotifier {
-//==================================================================
-//========================= CHANGE THEME ===========================
-//==================================================================
+  static final GrammarParser _parser = GrammarParser();
+  static final RegExp _percentageRegex =
+      RegExp(r'(\d+(\.\d+)?)%(\d+(\.\d+)?)?');
 
-  final box = GetStorage();
-  bool isLight = false;
+  static const Set<String> _operators = {'+', '-', '×', '÷', '/'};
+  static const Set<String> _specialFunctions = {
+    'sin', 'cos', 'tan', 'ctan', 'n!', '^2', '^n', 'π', '√',
+  };
 
-  ProviderClass() {
-    isLight = box.read<bool>('isLight') ?? false;
-  }
+  final GetStorage _box = GetStorage();
+  bool isLight;
+
+  ProviderClass() : isLight = GetStorage().read<bool>('isLight') ?? false;
 
   void changeTheme() {
     isLight = !isLight;
-    box.write('isLight', isLight);
+    _box.write('isLight', isLight);
     notifyListeners();
   }
 
-//==================================================================
-//========================== MATH LOGIC ============================
-//==================================================================
   String oldInput = '';
   String input = '';
   String output = '0';
@@ -35,22 +35,13 @@ class ProviderClass extends ChangeNotifier {
 
   void buttonPressed(String btnText, BuildContext context) {
     if (btnText == 'C') {
-      // Clear
       input = '';
       oldInput = '';
       output = '0';
       isResultDisplayed = false;
     } else if (btnText == '=') {
       _calculateResult(context);
-    } else if (btnText == 'sin' ||
-        btnText == 'cos' ||
-        btnText == 'tan' ||
-        btnText == 'ctan' ||
-        btnText == 'n!' ||
-        btnText == '^2' ||
-        btnText == '^n' ||
-        btnText == 'π' ||
-        btnText == '√') {
+    } else if (_specialFunctions.contains(btnText)) {
       if (isResultDisplayed) {
         input = '';
         isResultDisplayed = false;
@@ -67,13 +58,11 @@ class ProviderClass extends ChangeNotifier {
       }
       output = input;
     } else if (btnText == '⨉') {
-      // Oxiridan bitta element o'chirish
       if (input.isNotEmpty) {
         input = input.substring(0, input.length - 1);
         output = input.isEmpty ? '0' : input;
       }
     } else {
-      // Oddiy amal yoki raqam qo'shish
       if (isResultDisplayed) {
         input = '';
         isResultDisplayed = false;
@@ -84,38 +73,38 @@ class ProviderClass extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isOperator(String s) {
-    return s == '+' || s == '-' || s == '×' || s == '/' || s == "%" || s == "π";
-  }
+  bool _isOperator(String s) => _operators.contains(s);
 
   void _calculateResult(BuildContext context) {
     try {
-      String expressionString = input.replaceAll('×', '*').replaceAll('÷', '/');
+      var expressionString = input
+          .replaceAll('×', '*')
+          .replaceAll('÷', '/')
+          .replaceAll('π', pi.toString());
 
       if (expressionString.contains('%')) {
         expressionString = _handlePercentage(expressionString);
       }
 
-      expressionString = expressionString.replaceAll('π', pi.toString());
+      final double eval = (_parser
+              .parse(expressionString)
+              .evaluate(EvaluationType.REAL, ContextModel()) as num)
+          .toDouble();
 
-      GrammarParser parser = GrammarParser();
-      Expression expression = parser.parse(expressionString);
-      ContextModel contextModel = ContextModel();
-      double eval = expression.evaluate(EvaluationType.REAL, contextModel);
-
-      if (eval == eval.truncate()) {
-        output = eval.truncate().toString();
-      } else {
-        output = eval.toString();
+      if (!eval.isFinite) {
+        throw const FormatException('Non-finite result');
       }
 
-      // History ga saqlash
+      output = eval == eval.truncate()
+          ? eval.truncate().toString()
+          : eval.toString();
+
       context.read<HistoryProvider>().addHistory(input, output);
 
-      input = output;
       oldInput = input;
+      input = output;
       isResultDisplayed = true;
-    } catch (e) {
+    } catch (_) {
       output = 'Improper use!';
       input = '';
       isResultDisplayed = false;
@@ -123,10 +112,10 @@ class ProviderClass extends ChangeNotifier {
   }
 
   String _handlePercentage(String expression) {
-    final regExp = RegExp(r'(\d+(\.\d+)?)%\s*(\d+(\.\d+)?)');
-    return expression.replaceAllMapped(regExp, (match) {
+    return expression.replaceAllMapped(_percentageRegex, (match) {
       final firstNum = match.group(1);
       final secondNum = match.group(3);
+      if (secondNum == null) return '($firstNum/100)';
       return '($firstNum * ($secondNum / 100))';
     });
   }
@@ -162,7 +151,6 @@ class ProviderClass extends ChangeNotifier {
         break;
     }
     output = input;
-    notifyListeners();
   }
 
   void toggleAdvancedMode() {
@@ -170,7 +158,6 @@ class ProviderClass extends ChangeNotifier {
     notifyListeners();
   }
 
-  // History dan result qiymatini kalkulyatorga o'tkazish
   void setResultFromHistory(String result) {
     input = result;
     output = result;

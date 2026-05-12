@@ -1,14 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:math_expressions/math_expressions.dart';
+import 'package:calculator/provider/base_converter_provider.dart';
 
-class LengthProvider extends ChangeNotifier {
-  String fromUnit = 'Meter m';
-  String toUnit = 'Centimeter cm';
-  String input = '1';
-  String output = '100';
-  bool isResultDisplayed = false;
+class LengthProvider extends BaseConverterProvider {
+  LengthProvider()
+      : super(
+          input: '1',
+          output: '100',
+          fromUnit: 'Meter m',
+          toUnit: 'Centimeter cm',
+        );
 
-  final List<String> units = [
+  @override
+  final List<String> units = const [
     'Meter m',
     'Centimeter cm',
     'Millimeter mm',
@@ -18,8 +20,8 @@ class LengthProvider extends ChangeNotifier {
     'Yard yd',
   ];
 
-// Factors of units relative to meters
-  final Map<String, double> unitFactors = {
+  // Birliklarning metrga nisbatan koeffitsiyentlari.
+  static const Map<String, double> _factors = {
     'Meter m': 1.0,
     'Centimeter cm': 100.0,
     'Millimeter mm': 1000.0,
@@ -29,87 +31,13 @@ class LengthProvider extends ChangeNotifier {
     'Yard yd': 1.09361,
   };
 
-  void buttonPressed(String btnText) {
-    if (btnText == 'C') {
-      input = '0';
-      isResultDisplayed = false;
-    } else if (btnText == '⌫') {
-      if (input.length > 1) {
-        input = input.substring(0, input.length - 1);
-      } else {
-        input = '0';
-      }
-      isResultDisplayed = false;
-    } else if (btnText == '=') {
-      _calculateExpression();
-    } else if (btnText == '+' ||
-        btnText == '-' ||
-        btnText == '×' ||
-        btnText == '÷') {
-      // Agar natija ko'rsatilgan bo'lsa va operator bosilsa
-      if (isResultDisplayed) {
-        isResultDisplayed = false;
-        // Operatorni qo'shish
-        input += btnText;
-      } else {
-        // Agar oxirgi belgi operator bo'lsa, uni almashtirish
-        if (input.isNotEmpty &&
-            (input[input.length - 1] == '+' ||
-                input[input.length - 1] == '-' ||
-                input[input.length - 1] == '×' ||
-                input[input.length - 1] == '÷')) {
-          input = input.substring(0, input.length - 1) + btnText;
-        } else {
-          input += btnText;
-        }
-      }
-    } else {
-      if (isResultDisplayed) {
-        input = '';
-        isResultDisplayed = false;
-      }
-      if (input == '0' && btnText != '.') input = '';
-      input += btnText;
+  @override
+  double convert(double value, String from, String to) {
+    final fromFactor = _factors[from];
+    final toFactor = _factors[to];
+    if (fromFactor == null || toFactor == null) {
+      throw ArgumentError('Unknown unit: $from → $to');
     }
-    notifyListeners();
-  }
-
-  void changeFromUnit(String? value) {
-    fromUnit = value!;
-    _calculateExpression();
-    notifyListeners();
-  }
-
-  void changeToUnit(String? value) {
-    toUnit = value!;
-    _calculateExpression();
-    notifyListeners();
-  }
-
-  void _calculateExpression() {
-    try {
-      // Matematik ifodani hisoblash
-      final parser = ShuntingYardParser();
-      Expression exp =
-          parser.parse(input.replaceAll('×', '*').replaceAll('÷', '/'));
-      double result = exp.evaluate(EvaluationType.REAL, ContextModel());
-
-      // Natijani input ga qo'yish
-      input =
-          result.toStringAsFixed(6).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '');
-
-      // Konvertatsiya qilish
-      double metrValue = result / unitFactors[fromUnit]!;
-      double convertedValue = metrValue * unitFactors[toUnit]!;
-
-      output = convertedValue
-          .toStringAsFixed(6)
-          .replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '');
-      isResultDisplayed = true;
-    } catch (e) {
-      output = '0';
-      input = '0';
-    }
-    notifyListeners();
+    return value / fromFactor * toFactor;
   }
 }

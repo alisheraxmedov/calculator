@@ -6,7 +6,7 @@ class HistoryItem {
   final String result;
   final DateTime timestamp;
 
-  HistoryItem({
+  const HistoryItem({
     required this.expression,
     required this.result,
     required this.timestamp,
@@ -20,17 +20,29 @@ class HistoryItem {
     };
   }
 
-  factory HistoryItem.fromJson(Map<String, dynamic> json) {
+  static HistoryItem? tryFromJson(Object? raw) {
+    if (raw is! Map) return null;
+    final expression = raw['expression'];
+    final result = raw['result'];
+    final timestamp = raw['timestamp'];
+    if (expression is! String || result is! String || timestamp is! String) {
+      return null;
+    }
+    final parsed = DateTime.tryParse(timestamp);
+    if (parsed == null) return null;
     return HistoryItem(
-      expression: json['expression'],
-      result: json['result'],
-      timestamp: DateTime.parse(json['timestamp']),
+      expression: expression,
+      result: result,
+      timestamp: parsed,
     );
   }
 }
 
 class HistoryProvider extends ChangeNotifier {
-  final box = GetStorage();
+  static const int _maxItems = 50;
+  static const String _storageKey = 'calculator_history';
+
+  final GetStorage _box = GetStorage();
   List<HistoryItem> _history = [];
 
   List<HistoryItem> get history => _history;
@@ -40,58 +52,53 @@ class HistoryProvider extends ChangeNotifier {
   }
 
   void _loadHistory() {
-    final List<dynamic>? historyData = box.read<List<dynamic>>('calculator_history');
-    if (historyData != null) {
-      _history = historyData
-          .map((item) => HistoryItem.fromJson(item))
-          .toList();
-      _history.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+    final raw = _box.read<List<dynamic>>(_storageKey);
+    if (raw == null) return;
+    final loaded = <HistoryItem>[];
+    for (final item in raw) {
+      final parsed = HistoryItem.tryFromJson(item);
+      if (parsed != null) loaded.add(parsed);
     }
-    notifyListeners();
+    loaded.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+    _history = loaded;
+    // Listener'lar hali ulanmagan — notifyListeners chaqirilmaydi.
   }
 
   void addHistory(String expression, String result) {
-    final historyItem = HistoryItem(
-      expression: expression,
-      result: result,
-      timestamp: DateTime.now(),
+    _history.insert(
+      0,
+      HistoryItem(
+        expression: expression,
+        result: result,
+        timestamp: DateTime.now(),
+      ),
     );
-    
-    _history.insert(0, historyItem);
-    
-    // Faqat oxirgi 50 ta hisob-kitobni saqlaymiz
-    if (_history.length > 50) {
-      _history = _history.take(50).toList();
+    if (_history.length > _maxItems) {
+      _history = _history.take(_maxItems).toList();
     }
-    
     _saveHistory();
     notifyListeners();
   }
 
   void _saveHistory() {
-    final historyData = _history.map((item) => item.toJson()).toList();
-    box.write('calculator_history', historyData);
+    _box.write(_storageKey, _history.map((item) => item.toJson()).toList());
   }
 
   void clearHistory() {
     _history.clear();
-    box.remove('calculator_history');
+    _box.remove(_storageKey);
     notifyListeners();
   }
 
   void deleteHistoryItem(int index) {
-    if (index >= 0 && index < _history.length) {
-      _history.removeAt(index);
-      _saveHistory();
-      notifyListeners();
-    }
+    if (index < 0 || index >= _history.length) return;
+    _history.removeAt(index);
+    _saveHistory();
+    notifyListeners();
   }
 
-  // History dan result qiymatini olish
   String getResultByIndex(int index) {
-    if (index >= 0 && index < _history.length) {
-      return _history[index].result;
-    }
-    return '';
+    if (index < 0 || index >= _history.length) return '';
+    return _history[index].result;
   }
 }

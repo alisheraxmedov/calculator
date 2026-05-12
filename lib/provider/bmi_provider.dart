@@ -8,8 +8,7 @@ class BMIProvider extends ChangeNotifier {
   String gender = 'Male'; // 'Erkak' yoki 'Ayol'
 
   void calculateBMI() {
-    // Balandlikni metrga o'tkazish
-    double heightInMeters = height / 100;
+    final double heightInMeters = height / 100;
     // TMI formulasi: vazn / (balandlik^2)
     bmi = weight / (heightInMeters * heightInMeters);
 

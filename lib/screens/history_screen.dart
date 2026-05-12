@@ -13,8 +13,6 @@ class HistoryScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
-          centerTitle: true,
           title: Text(
             'History',
             style: TextStyle(
@@ -34,7 +32,6 @@ class HistoryScreen extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         body: Consumer<HistoryProvider>(
           builder: (context, historyProvider, child) {
             if (historyProvider.history.isEmpty) {
@@ -140,7 +137,7 @@ class HistoryScreen extends StatelessWidget {
 
   void _showClearDialog(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
