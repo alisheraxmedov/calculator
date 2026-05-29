@@ -1,4 +1,5 @@
 import 'package:calculator/consts/colors.dart';
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/screens/area_screen.dart';
 import 'package:calculator/screens/bmi_screen.dart';
 import 'package:calculator/screens/history_screen.dart';
@@ -67,62 +68,64 @@ class DrawerWidget extends StatelessWidget {
     required this.width,
   });
 
-  static final List<_DrawerItem> _items = [
-    _DrawerItem(
-      icon: Icons.history,
-      title: 'History',
-      builder: (_) => const HistoryScreen(),
-    ),
-    _DrawerItem(
-      icon: Icons.straighten,
-      title: 'Length',
-      builder: (_) => const LengthScreen(),
-    ),
-    _DrawerItem(
-      icon: Icons.monitor_weight,
-      title: 'Weight',
-      builder: (_) => const WeightScreen(),
-    ),
-    _DrawerItem(
-      icon: Icons.crop_square,
-      title: 'Square',
-      builder: (_) => const AreaScreen(),
-    ),
-    _DrawerItem(
-      icon: Icons.access_time,
-      title: 'Time',
-      builder: (_) => const TimeScreen(),
-    ),
-    _DrawerItem(
-      icon: Icons.wifi,
-      title: 'Mobile Internet',
-      builder: (_) => const InternetScreen(),
-    ),
-    _DrawerItem(
-      icon: Icons.inbox,
-      title: 'Size',
-      builder: (_) => const VolumeScreen(),
-    ),
-    _DrawerItem(
-      icon: Icons.speed,
-      title: 'Speed',
-      builder: (_) => const SpeedScreen(),
-    ),
-    _DrawerItem(
-      icon: Icons.thermostat,
-      title: 'Temperature',
-      builder: (_) => const TemperatureScreen(),
-    ),
-    _DrawerItem(
-      icon: Icons.data_usage,
-      title: 'BMI',
-      builder: (_) => const BMIScreen(),
-    ),
-  ];
+  List<_DrawerItem> _items(AppLocalizations l10n) => [
+        _DrawerItem(
+          icon: Icons.history,
+          title: l10n.drawerHistory,
+          builder: (_) => const HistoryScreen(),
+        ),
+        _DrawerItem(
+          icon: Icons.straighten,
+          title: l10n.drawerLength,
+          builder: (_) => const LengthScreen(),
+        ),
+        _DrawerItem(
+          icon: Icons.monitor_weight,
+          title: l10n.drawerWeight,
+          builder: (_) => const WeightScreen(),
+        ),
+        _DrawerItem(
+          icon: Icons.crop_square,
+          title: l10n.drawerSquare,
+          builder: (_) => const AreaScreen(),
+        ),
+        _DrawerItem(
+          icon: Icons.access_time,
+          title: l10n.drawerTime,
+          builder: (_) => const TimeScreen(),
+        ),
+        _DrawerItem(
+          icon: Icons.wifi,
+          title: l10n.drawerInternet,
+          builder: (_) => const InternetScreen(),
+        ),
+        _DrawerItem(
+          icon: Icons.inbox,
+          title: l10n.drawerSize,
+          builder: (_) => const VolumeScreen(),
+        ),
+        _DrawerItem(
+          icon: Icons.speed,
+          title: l10n.drawerSpeed,
+          builder: (_) => const SpeedScreen(),
+        ),
+        _DrawerItem(
+          icon: Icons.thermostat,
+          title: l10n.drawerTemperature,
+          builder: (_) => const TemperatureScreen(),
+        ),
+        _DrawerItem(
+          icon: Icons.data_usage,
+          title: l10n.drawerBmi,
+          builder: (_) => const BMIScreen(),
+        ),
+      ];
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    final items = _items(l10n);
     return Drawer(
       width: width * 0.8,
       backgroundColor: colorScheme.surface,
@@ -158,7 +161,7 @@ class DrawerWidget extends StatelessWidget {
                   ),
                   SizedBox(height: width * 0.018),
                   Text(
-                    'Calculator',
+                    l10n.appTitle,
                     style: TextStyle(
                       color: ColorClass.white,
                       fontSize: width * 0.07,
@@ -170,9 +173,9 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
           ),
-          for (int i = 0; i < _items.length; i++) ...[
-            _buildTile(context, _items[i]),
-            if (i != _items.length - 1)
+          for (int i = 0; i < items.length; i++) ...[
+            _buildTile(context, items[i]),
+            if (i != items.length - 1)
               Divider(
                 height: 1,
                 color: Theme.of(context).dividerColor.withValues(alpha: 0.1),

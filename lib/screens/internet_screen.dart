@@ -1,3 +1,4 @@
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/internet_provider.dart';
 import 'package:calculator/screens/converter_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ class InternetScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => InternetProvider(),
-      child: const ConverterScreen<InternetProvider>(title: 'Mobile Internet'),
+      child: ConverterScreen<InternetProvider>(
+        title: AppLocalizations.of(context)!.screenInternet,
+      ),
     );
   }
 }

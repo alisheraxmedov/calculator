@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="length"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_length"
+        android:shortcutShortLabel="@string/shortcut_length_short"
+        android:shortcutLongLabel="@string/shortcut_length_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.alisher.calculator"
+            android:targetClass="com.alisher.calculator.MainActivity"
+            android:data="calculator://length" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="weight"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_weight"
+        android:shortcutShortLabel="@string/shortcut_weight_short"
+        android:shortcutLongLabel="@string/shortcut_weight_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.alisher.calculator"
+            android:targetClass="com.alisher.calculator.MainActivity"
+            android:data="calculator://weight" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="history"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_history"
+        android:shortcutShortLabel="@string/shortcut_history_short"
+        android:shortcutLongLabel="@string/shortcut_history_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.alisher.calculator"
+            android:targetClass="com.alisher.calculator.MainActivity"
+            android:data="calculator://history" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

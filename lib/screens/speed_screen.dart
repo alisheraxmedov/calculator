@@ -1,3 +1,4 @@
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/speed_provider.dart';
 import 'package:calculator/screens/converter_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ class SpeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => SpeedProvider(),
-      child: const ConverterScreen<SpeedProvider>(title: 'Speed'),
+      child: ConverterScreen<SpeedProvider>(
+        title: AppLocalizations.of(context)!.screenSpeed,
+      ),
     );
   }
 }

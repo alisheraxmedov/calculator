@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kalkulyator</string>
+
+    <string name="shortcut_length_short">Uzunlik</string>
+    <string name="shortcut_length_long">Uzunlik konvertori</string>
+    <string name="shortcut_weight_short">Og\'irlik</string>
+    <string name="shortcut_weight_long">Og\'irlik konvertori</string>
+    <string name="shortcut_history_short">Tarix</string>
+    <string name="shortcut_history_long">Hisoblash tarixi</string>
+</resources>

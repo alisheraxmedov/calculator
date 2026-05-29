@@ -1,3 +1,4 @@
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/length_provider.dart';
 import 'package:calculator/screens/converter_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ class LengthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => LengthProvider(),
-      child: const ConverterScreen<LengthProvider>(title: 'Length'),
+      child: ConverterScreen<LengthProvider>(
+        title: AppLocalizations.of(context)!.screenLength,
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:calculator/consts/colors.dart';
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/bmi_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ class BMIScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: ChangeNotifierProvider(
         create: (_) => BMIProvider(),
@@ -20,7 +22,7 @@ class BMIScreen extends StatelessWidget {
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () => Navigator.pop(context),
                 ),
-                title: const Text('Body Mass Index'),
+                title: Text(l10n.screenBmi),
               ),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),
@@ -29,7 +31,7 @@ class BMIScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: width * 0.08),
                     Text(
-                      'Gender',
+                      l10n.bmiGender,
                       style: TextStyle(
                         fontSize: width * 0.045,
                         fontWeight: FontWeight.w500,
@@ -39,97 +41,30 @@ class BMIScreen extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: GestureDetector(
-                            onTap: () => provider.updateGender('Male'),
-                            child: Container(
-                              padding:
-                                  EdgeInsets.symmetric(vertical: width * 0.03),
-                              decoration: BoxDecoration(
-                                color: provider.gender == 'Male'
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withValues(alpha: 0.1),
-                                borderRadius:
-                                    BorderRadius.circular(width * 0.03),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.male,
-                                    color: provider.gender == 'Male'
-                                        ? ColorClass.white
-                                        : Theme.of(context).colorScheme.primary,
-                                  ),
-                                  SizedBox(width: width * 0.02),
-                                  Text(
-                                    'Male',
-                                    style: TextStyle(
-                                      color: provider.gender == 'Male'
-                                          ? ColorClass.white
-                                          : Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                      fontSize: width * 0.045,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          child: _GenderTile(
+                            label: l10n.bmiMale,
+                            icon: Icons.male,
+                            selected: provider.gender == BmiGender.male,
+                            onTap: () => provider.updateGender(BmiGender.male),
+                            width: width,
                           ),
                         ),
                         SizedBox(width: width * 0.03),
                         Expanded(
-                          child: GestureDetector(
-                            onTap: () => provider.updateGender('Female'),
-                            child: Container(
-                              padding:
-                                  EdgeInsets.symmetric(vertical: width * 0.03),
-                              decoration: BoxDecoration(
-                                color: provider.gender == 'Female'
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withValues(alpha: 0.1),
-                                borderRadius:
-                                    BorderRadius.circular(width * 0.03),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.female,
-                                    color: provider.gender == 'Female'
-                                        ? ColorClass.white
-                                        : Theme.of(context).colorScheme.primary,
-                                  ),
-                                  SizedBox(width: width * 0.02),
-                                  Text(
-                                    'Female',
-                                    style: TextStyle(
-                                      color: provider.gender == 'Female'
-                                          ? ColorClass.white
-                                          : Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                      fontSize: width * 0.045,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          child: _GenderTile(
+                            label: l10n.bmiFemale,
+                            icon: Icons.female,
+                            selected: provider.gender == BmiGender.female,
+                            onTap: () =>
+                                provider.updateGender(BmiGender.female),
+                            width: width,
                           ),
                         ),
                       ],
                     ),
                     SizedBox(height: width * 0.08),
                     Text(
-                      'Length (cm)',
+                      l10n.bmiHeightLabel,
                       style: TextStyle(
                         fontSize: width * 0.045,
                         fontWeight: FontWeight.w500,
@@ -144,7 +79,7 @@ class BMIScreen extends StatelessWidget {
                       onChanged: provider.updateHeight,
                     ),
                     Text(
-                      '${provider.height.round()} cm',
+                      l10n.bmiHeightValue(provider.height.round()),
                       style: TextStyle(
                         fontSize: width * 0.05,
                         color: ColorClass.orange,
@@ -153,7 +88,7 @@ class BMIScreen extends StatelessWidget {
                     ),
                     SizedBox(height: width * 0.08),
                     Text(
-                      'Weight (kg)',
+                      l10n.bmiWeightLabel,
                       style: TextStyle(
                         fontSize: width * 0.045,
                         fontWeight: FontWeight.w500,
@@ -168,7 +103,7 @@ class BMIScreen extends StatelessWidget {
                       onChanged: provider.updateWeight,
                     ),
                     Text(
-                      '${provider.weight.round()} kg',
+                      l10n.bmiWeightValue(provider.weight.round()),
                       style: TextStyle(
                         fontSize: width * 0.05,
                         color: ColorClass.orange,
@@ -190,7 +125,7 @@ class BMIScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'BMI: ${provider.bmi.toStringAsFixed(1)}',
+                            l10n.bmiResult(provider.bmi.toStringAsFixed(1)),
                             style: TextStyle(
                               fontSize: width * 0.06,
                               fontWeight: FontWeight.bold,
@@ -199,7 +134,7 @@ class BMIScreen extends StatelessWidget {
                           ),
                           SizedBox(height: width * 0.02),
                           Text(
-                            'Category: ${provider.category}',
+                            l10n.bmiCategoryLabel(_categoryLabel(provider.category, l10n)),
                             style: TextStyle(
                               fontSize: width * 0.045,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -207,7 +142,7 @@ class BMIScreen extends StatelessWidget {
                           ),
                           SizedBox(height: width * 0.02),
                           Text(
-                            'Gender: ${provider.gender}',
+                            l10n.bmiGenderLabel(_genderLabel(provider.gender, l10n)),
                             style: TextStyle(
                               fontSize: width * 0.045,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -221,6 +156,69 @@ class BMIScreen extends StatelessWidget {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  String _categoryLabel(BmiCategory c, AppLocalizations l10n) {
+    switch (c) {
+      case BmiCategory.underweight:
+        return l10n.bmiUnderweight;
+      case BmiCategory.normal:
+        return l10n.bmiNormal;
+      case BmiCategory.overweight:
+        return l10n.bmiOverweight;
+      case BmiCategory.obesity:
+        return l10n.bmiObesity;
+    }
+  }
+
+  String _genderLabel(BmiGender g, AppLocalizations l10n) {
+    return g == BmiGender.male ? l10n.bmiMale : l10n.bmiFemale;
+  }
+}
+
+class _GenderTile extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+  final double width;
+
+  const _GenderTile({
+    required this.label,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+    required this.width,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = Theme.of(context).colorScheme.primary;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: width * 0.03),
+        decoration: BoxDecoration(
+          color: selected ? primary : primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(width * 0.03),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: selected ? ColorClass.white : primary),
+            SizedBox(width: width * 0.02),
+            Text(
+              label,
+              style: TextStyle(
+                color: selected ? ColorClass.white : primary,
+                fontSize: width * 0.045,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
       ),
     );

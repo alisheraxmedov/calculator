@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Calculator</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_length_short">Length</string>
+    <string name="shortcut_length_long">Length converter</string>
+    <string name="shortcut_weight_short">Weight</string>
+    <string name="shortcut_weight_long">Weight converter</string>
+    <string name="shortcut_history_short">History</string>
+    <string name="shortcut_history_long">Calculation history</string>
+</resources>

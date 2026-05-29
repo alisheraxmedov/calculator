@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Калькулятор</string>
+
+    <string name="shortcut_length_short">Длина</string>
+    <string name="shortcut_length_long">Конвертер длины</string>
+    <string name="shortcut_weight_short">Вес</string>
+    <string name="shortcut_weight_long">Конвертер веса</string>
+    <string name="shortcut_history_short">История</string>
+    <string name="shortcut_history_long">История вычислений</string>
+</resources>

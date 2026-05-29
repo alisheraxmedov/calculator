@@ -1,3 +1,4 @@
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/area_provider.dart';
 import 'package:calculator/screens/converter_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ class AreaScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => AreaProvider(),
-      child: const ConverterScreen<AreaProvider>(title: 'Square'),
+      child: ConverterScreen<AreaProvider>(
+        title: AppLocalizations.of(context)!.screenSquare,
+      ),
     );
   }
 }

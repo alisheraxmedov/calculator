@@ -1,0 +1,81 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Калькулятор",
+  "improperUse": "Неверный ввод!",
+
+  "drawerHistory": "История",
+  "drawerLength": "Длина",
+  "drawerWeight": "Вес",
+  "drawerSquare": "Площадь",
+  "drawerTime": "Время",
+  "drawerInternet": "Мобильный интернет",
+  "drawerSize": "Объём",
+  "drawerSpeed": "Скорость",
+  "drawerTemperature": "Температура",
+  "drawerBmi": "ИМТ",
+
+  "screenLength": "Длина",
+  "screenWeight": "Вес",
+  "screenSquare": "Площадь",
+  "screenTime": "Время",
+  "screenInternet": "Мобильный интернет",
+  "screenSize": "Объём",
+  "screenSpeed": "Скорость",
+  "screenTemperature": "Температура",
+  "screenBmi": "Индекс массы тела",
+
+  "historyTitle": "История",
+  "noHistoryYet": "История пуста",
+  "calculationsAppearHere": "Ваши вычисления появятся здесь",
+  "result": "Результат: {value}",
+  "@result": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "clearHistory": "Очистить историю",
+  "clearHistoryConfirm": "Вы уверены, что хотите очистить всю историю?",
+  "cancel": "Отмена",
+  "clear": "Очистить",
+  "justNow": "Только что",
+  "daysAgo": "{count, plural, one{{count} день назад} few{{count} дня назад} many{{count} дней назад} other{{count} дня назад}}",
+  "@daysAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "hoursAgo": "{count, plural, one{{count} час назад} few{{count} часа назад} many{{count} часов назад} other{{count} часа назад}}",
+  "@hoursAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "minutesAgo": "{count, plural, one{{count} минута назад} few{{count} минуты назад} many{{count} минут назад} other{{count} минуты назад}}",
+  "@minutesAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "bmiGender": "Пол",
+  "bmiMale": "Мужской",
+  "bmiFemale": "Женский",
+  "bmiHeightLabel": "Рост (см)",
+  "bmiWeightLabel": "Вес (кг)",
+  "bmiHeightValue": "{value} см",
+  "@bmiHeightValue": {
+    "placeholders": { "value": { "type": "int" } }
+  },
+  "bmiWeightValue": "{value} кг",
+  "@bmiWeightValue": {
+    "placeholders": { "value": { "type": "int" } }
+  },
+  "bmiResult": "ИМТ: {value}",
+  "@bmiResult": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "bmiCategoryLabel": "Категория: {value}",
+  "@bmiCategoryLabel": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "bmiGenderLabel": "Пол: {value}",
+  "@bmiGenderLabel": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "bmiUnderweight": "Недостаточный вес",
+  "bmiNormal": "Нормальный вес",
+  "bmiOverweight": "Избыточный вес",
+  "bmiObesity": "Ожирение"
+}

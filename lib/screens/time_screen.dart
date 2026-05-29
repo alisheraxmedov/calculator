@@ -1,3 +1,4 @@
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/time_provider.dart';
 import 'package:calculator/screens/converter_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ class TimeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => TimeProvider(),
-      child: const ConverterScreen<TimeProvider>(title: 'Time'),
+      child: ConverterScreen<TimeProvider>(
+        title: AppLocalizations.of(context)!.screenTime,
+      ),
     );
   }
 }

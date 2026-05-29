@@ -1,0 +1,81 @@
+{
+  "@@locale": "en",
+  "appTitle": "Calculator",
+  "improperUse": "Improper use!",
+
+  "drawerHistory": "History",
+  "drawerLength": "Length",
+  "drawerWeight": "Weight",
+  "drawerSquare": "Square",
+  "drawerTime": "Time",
+  "drawerInternet": "Mobile Internet",
+  "drawerSize": "Size",
+  "drawerSpeed": "Speed",
+  "drawerTemperature": "Temperature",
+  "drawerBmi": "BMI",
+
+  "screenLength": "Length",
+  "screenWeight": "Weight",
+  "screenSquare": "Square",
+  "screenTime": "Time",
+  "screenInternet": "Mobile Internet",
+  "screenSize": "Size",
+  "screenSpeed": "Speed",
+  "screenTemperature": "Temperature",
+  "screenBmi": "Body Mass Index",
+
+  "historyTitle": "History",
+  "noHistoryYet": "No history yet",
+  "calculationsAppearHere": "Your calculations will appear here",
+  "result": "Result: {value}",
+  "@result": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "clearHistory": "Clear History",
+  "clearHistoryConfirm": "Are you sure you want to clear all history?",
+  "cancel": "Cancel",
+  "clear": "Clear",
+  "justNow": "Just now",
+  "daysAgo": "{count, plural, one{{count} day ago} other{{count} days ago}}",
+  "@daysAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "hoursAgo": "{count, plural, one{{count} hour ago} other{{count} hours ago}}",
+  "@hoursAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "minutesAgo": "{count, plural, one{{count} minute ago} other{{count} minutes ago}}",
+  "@minutesAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "bmiGender": "Gender",
+  "bmiMale": "Male",
+  "bmiFemale": "Female",
+  "bmiHeightLabel": "Length (cm)",
+  "bmiWeightLabel": "Weight (kg)",
+  "bmiHeightValue": "{value} cm",
+  "@bmiHeightValue": {
+    "placeholders": { "value": { "type": "int" } }
+  },
+  "bmiWeightValue": "{value} kg",
+  "@bmiWeightValue": {
+    "placeholders": { "value": { "type": "int" } }
+  },
+  "bmiResult": "BMI: {value}",
+  "@bmiResult": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "bmiCategoryLabel": "Category: {value}",
+  "@bmiCategoryLabel": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "bmiGenderLabel": "Gender: {value}",
+  "@bmiGenderLabel": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "bmiUnderweight": "Underweight",
+  "bmiNormal": "Normal weight",
+  "bmiOverweight": "Overweight",
+  "bmiObesity": "Obesity"
+}

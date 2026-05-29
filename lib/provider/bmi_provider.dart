@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 
+enum BmiCategory { underweight, normal, overweight, obesity }
+
+enum BmiGender { male, female }
+
 class BMIProvider extends ChangeNotifier {
   double height = 170;
   double weight = 70;
   double bmi = 0;
-  String category = '';
-  String gender = 'Male'; // 'Erkak' yoki 'Ayol'
+  BmiCategory category = BmiCategory.normal;
+  BmiGender gender = BmiGender.male;
 
   void calculateBMI() {
     final double heightInMeters = height / 100;
-    // TMI formulasi: vazn / (balandlik^2)
     bmi = weight / (heightInMeters * heightInMeters);
 
-    // TMI kategoriyasini aniqlash
     if (bmi < 18.5) {
-      category = 'Underweight';
+      category = BmiCategory.underweight;
     } else if (bmi < 25) {
-      category = 'Normal weight';
+      category = BmiCategory.normal;
     } else if (bmi < 30) {
-      category = 'Overweight';
+      category = BmiCategory.overweight;
     } else {
-      category = 'Obesity';
+      category = BmiCategory.obesity;
     }
 
     notifyListeners();
@@ -36,7 +38,7 @@ class BMIProvider extends ChangeNotifier {
     calculateBMI();
   }
 
-  void updateGender(String newGender) {
+  void updateGender(BmiGender newGender) {
     gender = newGender;
     notifyListeners();
   }

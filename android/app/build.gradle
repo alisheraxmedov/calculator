@@ -5,6 +5,15 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// Firebase plugins — faqat google-services.json mavjud bo'lganda yoqiladi.
+// Bu build'ning Firebase sozlanmaganda ham ishlashini ta'minlaydi.
+def googleServicesFile = file('google-services.json')
+if (googleServicesFile.exists()) {
+    apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'com.google.firebase.crashlytics'
+    apply plugin: 'com.google.firebase.firebase-perf'
+}
+
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
@@ -13,7 +22,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.alisher.calculator"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -28,9 +37,9 @@ android {
     defaultConfig {
         applicationId = "com.alisher.calculator"
         minSdkVersion = 24
-        targetSdk = 35
-        versionCode = 8
-        versionName = "3.1.5"
+        targetSdk = 36
+        versionCode = 9
+        versionName = "3.1.6"
     }
 
     signingConfigs {

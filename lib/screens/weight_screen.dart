@@ -1,3 +1,4 @@
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/weight_provider.dart';
 import 'package:calculator/screens/converter_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ class WeightScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => WeightProvider(),
-      child: const ConverterScreen<WeightProvider>(title: 'Weight'),
+      child: ConverterScreen<WeightProvider>(
+        title: AppLocalizations.of(context)!.screenWeight,
+      ),
     );
   }
 }

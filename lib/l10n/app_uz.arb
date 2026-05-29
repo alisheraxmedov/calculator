@@ -1,0 +1,81 @@
+{
+  "@@locale": "uz",
+  "appTitle": "Kalkulyator",
+  "improperUse": "Noto'g'ri kiritildi!",
+
+  "drawerHistory": "Tarix",
+  "drawerLength": "Uzunlik",
+  "drawerWeight": "Og'irlik",
+  "drawerSquare": "Maydon",
+  "drawerTime": "Vaqt",
+  "drawerInternet": "Mobil Internet",
+  "drawerSize": "Hajm",
+  "drawerSpeed": "Tezlik",
+  "drawerTemperature": "Harorat",
+  "drawerBmi": "TVI",
+
+  "screenLength": "Uzunlik",
+  "screenWeight": "Og'irlik",
+  "screenSquare": "Maydon",
+  "screenTime": "Vaqt",
+  "screenInternet": "Mobil Internet",
+  "screenSize": "Hajm",
+  "screenSpeed": "Tezlik",
+  "screenTemperature": "Harorat",
+  "screenBmi": "Tana Vazn Indeksi",
+
+  "historyTitle": "Tarix",
+  "noHistoryYet": "Hozircha tarix yo'q",
+  "calculationsAppearHere": "Hisoblashlaringiz shu yerda paydo bo'ladi",
+  "result": "Natija: {value}",
+  "@result": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "clearHistory": "Tarixni tozalash",
+  "clearHistoryConfirm": "Haqiqatan ham barcha tarixni tozalamoqchimisiz?",
+  "cancel": "Bekor qilish",
+  "clear": "Tozalash",
+  "justNow": "Hozir",
+  "daysAgo": "{count} kun oldin",
+  "@daysAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "hoursAgo": "{count} soat oldin",
+  "@hoursAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "minutesAgo": "{count} daqiqa oldin",
+  "@minutesAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "bmiGender": "Jins",
+  "bmiMale": "Erkak",
+  "bmiFemale": "Ayol",
+  "bmiHeightLabel": "Bo'y (sm)",
+  "bmiWeightLabel": "Og'irlik (kg)",
+  "bmiHeightValue": "{value} sm",
+  "@bmiHeightValue": {
+    "placeholders": { "value": { "type": "int" } }
+  },
+  "bmiWeightValue": "{value} kg",
+  "@bmiWeightValue": {
+    "placeholders": { "value": { "type": "int" } }
+  },
+  "bmiResult": "TVI: {value}",
+  "@bmiResult": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "bmiCategoryLabel": "Kategoriya: {value}",
+  "@bmiCategoryLabel": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "bmiGenderLabel": "Jins: {value}",
+  "@bmiGenderLabel": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "bmiUnderweight": "Vazn yetarli emas",
+  "bmiNormal": "Normal vazn",
+  "bmiOverweight": "Ortiqcha vazn",
+  "bmiObesity": "Semizlik"
+}

@@ -1,3 +1,4 @@
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/history_provider.dart';
 import 'package:calculator/provider/provider.dart';
 import 'package:calculator/widgets/text.dart';
@@ -10,11 +11,12 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'History',
+            l10n.historyTitle,
             style: TextStyle(
               fontSize: width * 0.08,
               fontWeight: FontWeight.normal,
@@ -47,7 +49,7 @@ class HistoryScreen extends StatelessWidget {
                     SizedBox(height: width * 0.05),
                     TextWidget(
                       width: width,
-                      text: 'No history yet',
+                      text: l10n.noHistoryYet,
                       fontSize: width * 0.06,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).colorScheme.onSecondary,
@@ -55,7 +57,7 @@ class HistoryScreen extends StatelessWidget {
                     SizedBox(height: width * 0.02),
                     TextWidget(
                       width: width,
-                      text: 'Your calculations will appear here',
+                      text: l10n.calculationsAppearHere,
                       fontSize: width * 0.04,
                       color: Theme.of(context).colorScheme.onSecondary,
                     ),
@@ -63,7 +65,7 @@ class HistoryScreen extends StatelessWidget {
                 ),
               );
             }
-      
+
             return ListView.builder(
               padding: EdgeInsets.all(width * 0.03),
               itemCount: historyProvider.history.length,
@@ -93,7 +95,7 @@ class HistoryScreen extends StatelessWidget {
                         SizedBox(height: width * 0.01),
                         TextWidget(
                           width: width,
-                          text: 'Result: ${item.result}',
+                          text: l10n.result(item.result),
                           fontSize: width * 0.05,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primary,
@@ -101,7 +103,7 @@ class HistoryScreen extends StatelessWidget {
                         SizedBox(height: width * 0.01),
                         TextWidget(
                           width: width,
-                          text: _formatDateTime(item.timestamp),
+                          text: _formatDateTime(item.timestamp, l10n),
                           fontSize: width * 0.035,
                           color: Theme.of(context).colorScheme.onSecondary,
                         ),
@@ -117,10 +119,8 @@ class HistoryScreen extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      // Result qiymatini kalkulyatorga o'tkazish
                       final result = historyProvider.getResultByIndex(index);
                       if (result.isNotEmpty) {
-                        // ProviderClass ga result o'tkazish
                         context.read<ProviderClass>().setResultFromHistory(result);
                         Navigator.pop(context);
                       }
@@ -137,6 +137,7 @@ class HistoryScreen extends StatelessWidget {
 
   void _showClearDialog(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
+    final l10n = AppLocalizations.of(context)!;
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -147,14 +148,14 @@ class HistoryScreen extends StatelessWidget {
           ),
           title: TextWidget(
             width: width,
-            text: 'Clear History',
+            text: l10n.clearHistory,
             fontSize: width * 0.05,
             fontWeight: FontWeight.bold,
             color: Theme.of(context).textTheme.titleMedium!.color,
           ),
           content: TextWidget(
             width: width,
-            text: 'Are you sure you want to clear all history?',
+            text: l10n.clearHistoryConfirm,
             fontSize: width * 0.04,
             color: Theme.of(context).textTheme.bodyMedium!.color,
           ),
@@ -165,7 +166,7 @@ class HistoryScreen extends StatelessWidget {
               },
               child: TextWidget(
                 width: width,
-                text: 'Cancel',
+                text: l10n.cancel,
                 fontSize: width * 0.04,
                 color: Theme.of(context).colorScheme.onSecondary,
               ),
@@ -177,7 +178,7 @@ class HistoryScreen extends StatelessWidget {
               },
               child: TextWidget(
                 width: width,
-                text: 'Clear',
+                text: l10n.clear,
                 fontSize: width * 0.04,
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -188,18 +189,18 @@ class HistoryScreen extends StatelessWidget {
     );
   }
 
-  String _formatDateTime(DateTime dateTime) {
+  String _formatDateTime(DateTime dateTime, AppLocalizations l10n) {
     final now = DateTime.now();
     final difference = now.difference(dateTime);
 
     if (difference.inDays > 0) {
-      return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago';
+      return l10n.daysAgo(difference.inDays);
     } else if (difference.inHours > 0) {
-      return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago';
+      return l10n.hoursAgo(difference.inHours);
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago';
+      return l10n.minutesAgo(difference.inMinutes);
     } else {
-      return 'Just now';
+      return l10n.justNow;
     }
   }
 }

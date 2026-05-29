@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "579330838896",
+    "firebase_url": "https://notifications-3d16e-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "notifications-3d16e",
+    "storage_bucket": "notifications-3d16e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579330838896:android:03bf83cea26acc419a3fb5",
+        "android_client_info": {
+          "package_name": "com.alisher.calculator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2NiPOCZlNzL3TXldiYhTpnL-H34EDoGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

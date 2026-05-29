@@ -1,3 +1,4 @@
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/volume_provider.dart';
 import 'package:calculator/screens/converter_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ class VolumeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => VolumeProvider(),
-      child: const ConverterScreen<VolumeProvider>(title: 'Size'),
+      child: ConverterScreen<VolumeProvider>(
+        title: AppLocalizations.of(context)!.screenSize,
+      ),
     );
   }
 }

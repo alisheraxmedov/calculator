@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:calculator/l10n/app_localizations.dart';
 import 'package:calculator/provider/history_provider.dart';
+import 'package:calculator/services/review_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:math_expressions/math_expressions.dart';
@@ -104,8 +106,11 @@ class ProviderClass extends ChangeNotifier {
       oldInput = input;
       input = output;
       isResultDisplayed = true;
+
+      // Rating boost — 7-marta muvaffaqiyatli hisoblanganidan keyin so'raymiz
+      ReviewService.registerCalculation();
     } catch (_) {
-      output = 'Improper use!';
+      output = AppLocalizations.of(context)?.improperUse ?? 'Improper use!';
       input = '';
       isResultDisplayed = false;
     }
